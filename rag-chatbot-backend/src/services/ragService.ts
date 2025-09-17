@@ -1,38 +1,41 @@
 import { GoogleGenAI } from "@google/genai";
+import { config } from "../config/config";
+import { searchArticles } from "./searchService";
 
-interface RAGResponse {
-    answer: string;
-    context: string[];
-}
+const ai = new GoogleGenAI({ apiKey: config.googleApiKey });
 
-export async function runRAGPipeline(query: string): Promise<RAGResponse> {
-    // 1) Retrieve context from your vector DB (placeholder for now)
-    const retrievedContext = [
-        "Breaking news: Stock market surges today.",
-        "Technology sector shows strong growth in Q3."
-    ];
+/**
+ * RAG pipeline:
+ *  1. Embed query & search Pinecone
+ *  2. Build context
+ *  3. Call Gemini with context + query
+ */
+export async function runRAGPipeline(query: string) {
+    // Step 1: Retrieve top-k articles
+    const contextArticles = await searchArticles(query, 3);
 
-    // 2) Build a grounded prompt
-    const prompt =
-        `Answer the user query using ONLY the context below. If the answer isn't in the context, say you don't know.\n\n` +
-        `Context:\n${retrievedContext.join("\n")}\n\n` +
-        `Query: ${query}`;
-
-    try {
-        // The client will auto-read GEMINI_API_KEY (or GOOGLE_API_KEY) from env,
-        // or you can pass it explicitly: new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
-        const ai = new GoogleGenAI({
-            apiKey: process.env.GEMINI_API_KEY
-        });
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",          // fast & cheap; switch to 2.5-pro if you prefer
-            contents: prompt
-        });
-
-        const answer = response.text ?? "No answer from Gemini.";
-        return { answer, context: retrievedContext };
-    } catch (err) {
-        console.error("RAG pipeline error:", err);
-        return { answer: "⚠️ Error generating answer. Please try again.", context: [] };
+    if (!contextArticles.length) {
+        return { answer: "⚠️ No relevant articles found.", sources: [] };
     }
+
+    const contextText = contextArticles
+        .map((a) => `Title: ${a.title}\n${a.content}`)
+        .join("\n\n");
+
+    // Step 2: Call Gemini
+
+    const prompt = `Answer the following query using ONLY the context provided.
+  
+    Context: ${contextText}
+
+    Query: ${query}`;
+
+    const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+    });
+
+    const answer = response.text;
+
+    return { answer, sources: contextArticles };
 }
