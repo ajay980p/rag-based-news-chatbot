@@ -1,0 +1,298 @@
+{
+    "articles": [
+        {
+            "title": "Infosys Launches 'Pragati' AI Platform to Modernize Indian Banking Sector",
+            "description": "Bengaluru-based IT giant Infosys has unveiled 'Pragati', a new cloud-native AI platform specifically designed to accelerate digital transformation in India's banking sector. The platform offers a suite of tools for everything from personalized customer engagement using vernacular language models to advanced fraud detection and risk assessment. Built on a microservices architecture, Pragati is designed to integrate seamlessly with the legacy core banking systems prevalent in many Indian public sector banks. Infosys announced that Punjab National Bank will be its first major client, undertaking a phased rollout across its national branch network. The move is seen as a major push by Infosys to capture a larger share of the domestic BFSI market, which is rapidly adopting new technologies driven by the government's Digital India initiative. The platform aims to improve operational efficiency and help banks comply with evolving RBI regulations.",
+            "source": "The Economic Times",
+            "published_at": "2025-09-17T12:00:00Z"
+        },
+        {
+            "title": "SEBI Approves Regulatory Sandbox for Tokenized Securities in India",
+            "description": "The Securities and Exchange Board of India (SEBI) has officially approved a new framework for a regulatory sandbox to test the tokenization of securities. This landmark decision paves the way for fractional ownership of real-world assets like real estate and corporate bonds through blockchain technology. The sandbox will allow select fintech companies and stock exchanges to issue and trade tokenized assets in a controlled environment. Based in Mumbai, the initiative aims to assess the technological and regulatory challenges before a nationwide rollout. Market analysts believe this could democratize investment in high-value, illiquid assets for Indian retail investors. Participants in the sandbox will be required to adhere to strict KYC norms and report their findings to SEBI. This is a significant step towards integrating Web3 technologies into India's mainstream financial infrastructure, potentially unlocking billions in capital.",
+            "source": "Livemint",
+            "published_at": "2025-09-17T11:30:00Z"
+        },
+        {
+            "title": "IPL Announces AI-Powered Umpiring System for 2026 Season",
+            "description": "The Board of Control for Cricket in India (BCCI) has confirmed it will introduce a fully autonomous, AI-powered umpiring system for the 2026 Indian Premier League (IPL) season. Developed by a Bengaluru-based sports tech startup, the system uses an array of high-speed 8K cameras and sophisticated machine learning algorithms to make real-time decisions on LBWs, edges, and stumpings with sub-millimeter accuracy. The technology aims to eliminate human error from crucial moments in the game, a frequent point of controversy. The AI model has been trained on over a million deliveries from past IPL matches and domestic cricket. This move makes the IPL the first major T20 league in the world to adopt such a comprehensive system, further cementing its reputation for technological innovation. The system will undergo extensive testing during the upcoming Syed Mushtaq Ali Trophy before its official league debut.",
+            "source": "Cricbuzz Tech",
+            "published_at": "2025-09-17T09:00:00Z"
+        },
+        {
+            "title": "Zomato Acquires Gurugram-Based SaaS Startup 'ServeEasy' to Bolster Restaurant Tech",
+            "description": "Food delivery major Zomato has announced the acquisition of ServeEasy, a Gurugram-based SaaS platform providing restaurant management solutions, in an all-stock deal valued at approximately ₹450 crore. ServeEasy offers a suite of products including inventory management, point-of-sale systems, and customer relationship management tools for restaurants. This acquisition is a strategic move for Zomato to deepen its integration with its restaurant partners, moving beyond just food delivery and discovery. By integrating ServeEasy's technology, Zomato aims to create a comprehensive operating system for restaurants in India, helping them streamline operations and improve efficiency. The deal will allow Zomato to better leverage its data on food trends and customer preferences to provide actionable insights to its partners, strengthening its B2B offerings and creating new revenue streams beyond its core consumer-facing business.",
+            "source": "YourStory",
+            "published_at": "2025-09-16T15:00:00Z"
+        },
+        {
+            "title": "NPCI Launches Pilot for Offline UPI Payments in Rural India",
+            "description": "The National Payments Corporation of India (NPCI) has launched a pilot program for 'UPI Lite X', an offline version of its ubiquitous payment system, targeting regions with limited internet connectivity. The feature allows users to make small-value transactions without an active data connection by leveraging Near Field Communication (NFC) and a reserved offline balance in their UPI app. The pilot is being rolled out in select districts in Bihar and Odisha in partnership with several major banks. The goal is to bridge the digital divide and promote financial inclusion in rural and remote parts of India, where network stability remains a significant challenge. If successful, this initiative could significantly boost the volume of digital micro-transactions and further cement UPI's dominance in the Indian payments landscape. The NPCI aims for a nationwide launch by the end of 2026.",
+            "source": "Business Standard",
+            "published_at": "2025-09-16T14:20:00Z"
+        },
+        {
+            "title": "Indian Hockey Federation Partners with IIT Madras for Advanced Player Analytics",
+            "description": "In a bid to leverage data science for performance enhancement, the Indian Hockey Federation has signed a multi-year partnership with the Indian Institute of Technology Madras. The collaboration will focus on developing an advanced analytics platform to monitor player performance, prevent injuries, and refine team strategy. Researchers at IIT Madras will use wearable sensor data and video analysis powered by machine learning to track player workload, biomechanics, and tactical positioning during matches and training sessions. The platform will provide coaches with actionable insights to make data-driven decisions on player selection and in-game tactics. This initiative is part of a broader push to integrate cutting-edge technology into Indian sports ahead of the next Olympic cycle, aiming to give Indian athletes a competitive edge on the global stage. The initial focus will be on the men's and women's senior national teams.",
+            "source": "The Hindu",
+            "published_at": "2025-09-15T18:00:00Z"
+        },
+        {
+            "title": "Freshworks Unveils New Generative AI Suite 'Freddy AI' for Indian SMBs",
+            "description": "Chennai-based SaaS giant Freshworks has launched a new generative AI suite, 'Freddy AI', specifically tailored for the needs of small and medium businesses (SMBs) in India. The suite integrates across Freshworks' entire product portfolio, including its CRM and IT service management tools. It offers features like automated customer support responses in multiple Indian languages, AI-generated sales emails, and intelligent ticket summarization to improve productivity. A key differentiator is its focus on affordability and ease of implementation, addressing the primary barriers to AI adoption for smaller enterprises. The launch puts Freshworks in direct competition with global players like Salesforce and Zoho in the rapidly growing Indian SMB market. The company stated that Freddy AI was developed entirely at its Chennai R&D center and is optimized for the unique business workflows and communication styles prevalent in India.",
+            "source": "Inc42",
+            "published_at": "2025-09-17T10:15:00Z"
+        },
+        {
+            "title": "Gig-Worker Welfare Bill in Karnataka Mandates Social Security via Platform Data",
+            "description": "The Karnataka state government has passed a landmark bill aimed at providing social security benefits to gig-economy workers. The new legislation mandates that platform-based companies like Ola, Uber, Swiggy, and Zomato contribute a percentage of each transaction to a state-managed welfare fund. This fund will be used to provide accident insurance, health coverage, and retirement benefits to their driver and delivery partners. A crucial aspect of the bill is the requirement for these companies to share anonymized transactional data with a new government-run software platform, which will be used to calculate and administer benefits accurately. This data-driven approach is a first in India and sets a precedent for how technology can be leveraged for social welfare in the unorganized sector. The bill has been hailed by worker unions as a major victory, though tech platforms have raised concerns about data privacy and the financial impact.",
+            "source": "The Indian Express",
+            "published_at": "2025-09-15T12:00:00Z"
+        },
+        {
+            "title": "Reliance Jio to Power Broadcast of Indian Super League with 5G Network",
+            "description": "Reliance Jio has secured the exclusive rights to be the official 5G partner for the Indian Super League (ISL). Under the agreement, Jio will deploy its True 5G network across all ISL stadiums to power next-generation broadcast and in-stadium experiences. This will enable high-definition 4K multi-camera streaming directly to fans' devices via the JioTV app, allowing them to switch between different camera angles in real time. The high bandwidth and low latency of 5G will also support augmented reality experiences for fans at the venue, such as player stats overlaid on the live view. This partnership marks a significant application of 5G technology in Indian sports, aiming to create a more immersive and interactive viewing experience. It serves as a large-scale demonstration of Jio's network capabilities and its strategy to build a robust ecosystem of 5G-powered services.",
+            "source": "TelecomTalk",
+            "published_at": "2025-09-16T11:45:00Z"
+        },
+        {
+            "title": "Postman Opens New R&D Center in Hyderabad, Plans to Hire 500 Engineers",
+            "description": "API platform giant Postman has announced the opening of a new, state-of-the-art research and development center in Hyderabad, its second major hub in India after Bengaluru. The company plans to hire over 500 engineers, product managers, and designers for the new facility over the next two years. The Hyderabad center will focus on developing new products in the areas of API security, governance, and the application of AI in the API lifecycle. This expansion underscores the growing importance of the Indian market and its talent pool for the global SaaS industry. Postman, which was founded in India, continues to invest heavily in the country as it scales its operations globally. The move is also a boost for Hyderabad's status as a burgeoning tech hub, attracting significant investment from leading enterprise software companies.",
+            "source": "VCCircle",
+            "published_at": "2025-09-14T16:00:00Z"
+        },
+        {
+            "title": "Fintech Unicorn CRED Reports First-Ever Quarterly Profit, Shares Surge",
+            "description": "Bengaluru-based fintech unicorn CRED has announced its first-ever profitable quarter for Q2 2025, a major milestone for the company. The members-only credit card payment platform reported a net profit of ₹15 crore, driven by strong growth in its lending arm, CRED Cash, and increased monetization through its commerce and advertising verticals. Founder Kunal Shah stated that the focus on high-trust, high-income consumers has led to excellent credit performance and high engagement, which has finally translated into profitability. This news is a significant positive indicator for the Indian fintech ecosystem, which has been under pressure from investors to demonstrate a clear path to profitability. Following the announcement, CRED's valuation in the private market saw a significant uptick, signaling renewed investor confidence in its business model. The company plans to use the profits to further invest in its ecosystem of financial products.",
+            "source": "Moneycontrol",
+            "published_at": "2025-09-17T08:00:00Z"
+        },
+        {
+            "title": "Dream11 Launches Venture Fund to Invest in Indian Sports Tech Startups",
+            "description": "Fantasy sports leader Dream11 has launched 'DreamCapital', a ₹200 crore venture fund dedicated to investing in early-stage Indian startups in the sports technology sector. The fund will focus on companies working in areas like wearable technology, fan engagement, esports, and sports analytics. Based out of Mumbai, DreamCapital aims to build a comprehensive ecosystem around sports in India by backing innovative ideas and entrepreneurs. In addition to capital, the fund will provide portfolio companies with access to Dream11's vast user base of over 150 million sports fans and mentorship from its leadership team. This initiative is the first of its kind by a major Indian fantasy sports platform and signals the growing maturity and economic potential of the Indian sports tech market. The first cohort of startups is expected to be announced by the end of the year.",
+            "source": "YourStory",
+            "published_at": "2025-09-14T11:00:00Z"
+        },
+        {
+            "title": "TCS Partners with Delhi Metro to Implement AI-Based Crowd Management System",
+            "description": "Tata Consultancy Services (TCS) has secured a contract with the Delhi Metro Rail Corporation (DMRC) to deploy an AI-driven crowd management and predictive analytics system. The software will use real-time data from CCTV cameras and ticketing gates to monitor passenger flow and predict overcrowding at stations. The system's machine learning algorithms will identify patterns and alert station staff to potential congestion hotspots before they become critical, allowing for proactive measures like deploying additional staff or regulating entry. The platform will also provide DMRC with valuable data for optimizing train schedules and improving operational efficiency. This project is one of the largest implementations of AI in public transportation in India and is part of Delhi Metro's ongoing efforts to enhance passenger safety and experience through technology. The system will be rolled out across all lines in the next 18 months.",
+            "source": "Times of India",
+            "published_at": "2025-09-16T17:30:00Z"
+        },
+        {
+            "title": "Indian Government to Launch 'AgriStack' Platform for Precision Farming",
+            "description": "The Ministry of Agriculture has announced that it will launch the first phase of the 'AgriStack' platform by early 2026. This ambitious digital initiative aims to create a unified platform for India's agriculture ecosystem by consolidating anonymized data related to land records, crop patterns, and soil health. The platform will use this data to provide farmers with customized advisories on crop selection, fertilizer use, and pest control through a dedicated mobile app. It will also serve as a foundation for private fintech and agritech companies to build innovative solutions like tailored insurance products and credit facilities for farmers. The goal is to leverage data science and AI to boost farm productivity and increase farmer incomes. While the initiative holds immense promise, it has also sparked a debate among activists regarding data privacy and the potential for corporate exploitation of farmers' data.",
+            "source": "BusinessLine",
+            "published_at": "2025-09-15T09:45:00Z"
+        },
+        {
+            "title": "Kabbadi League ProKabaddi to Introduce Player-Worn Biometric Sensors",
+            "description": "The ProKabaddi League (PKL) has announced that all players will be equipped with advanced biometric sensors starting from its next season. These lightweight sensors, worn in a vest under the jersey, will track real-time data such as heart rate, distance covered, speed, and player load. This data will be used to provide live on-screen graphics for television broadcasts, offering viewers deeper insights into the athleticism and physical exertion of the players. Coaches and support staff will also use the data for performance analysis, injury prevention, and developing personalized training regimens. This technological integration aims to enhance the analytical depth of the sport and boost fan engagement, bringing it on par with global sports leagues like the NBA and NFL. The league has partnered with a leading Australian sports science company to provide the hardware and analytics platform.",
+            "source": "Sportstar",
+            "published_at": "2025-09-13T14:00:00Z"
+        },
+        {
+            "title": "Open-Source Platform 'Indic-NLP' Crosses 1 Million Downloads, Boosts Indian Language AI",
+            "description": "The Indic-NLP library, an open-source Python platform for Natural Language Processing in Indian languages, has surpassed one million downloads, marking a significant milestone for the developer community. Maintained by a consortium of researchers from various IITs and AI4Bharat, the library provides pre-trained models and tools for tasks like translation, text classification, and named-entity recognition across 22 Indian languages. Its growing popularity has been instrumental in enabling startups and developers to build applications for a diverse, multilingual Indian user base without incurring the high costs of developing language models from scratch. The project's success highlights the increasing focus on creating technology that is accessible and relevant to non-English speaking users in India. The maintainers have announced plans to add support for more low-resource languages and release more powerful generative models in the coming months.",
+            "source": "Analytics India Magazine",
+            "published_at": "2025-09-16T09:00:00Z"
+        },
+        {
+            "title": "RBI Working Group Proposes Digital Rupee Integration with UPI QR Codes",
+            "description": "A Reserve Bank of India (RBI) working group has submitted a proposal recommending the full integration of the Central Bank Digital Currency (CBDC), or Digital Rupee, with the existing UPI QR code infrastructure. The proposal suggests that the Digital Rupee should be an interoperable payment option within all third-party UPI apps, allowing users to pay via CBDC by scanning the same QR codes they use for regular UPI transactions. This move is aimed at dramatically accelerating the adoption of the Digital Rupee by leveraging the vast and deeply entrenched UPI network, which boasts hundreds of millions of users and merchants. The working group argues that this seamless integration would lower the barrier to entry for users and merchants, making the CBDC a viable and familiar alternative to physical cash. The RBI is expected to review the proposal and may launch a pilot program based on these recommendations early next year.",
+            "source": "Reuters India",
+            "published_at": "2025-09-17T13:00:00Z"
+        },
+        {
+            "title": "Indian Gaming Startup 'Kriyaverse' Raises $20M for its Metaverse Cricket Game",
+            "description": "Mumbai-based gaming startup Kriyaverse has raised $20 million in a Series A funding round led by Sequoia Capital India for its upcoming metaverse-based cricket game. Titled 'Kriyaverse Cricket', the game will allow players to own and trade digital assets like players and stadiums as NFTs, compete in immersive 3D matches, and interact in a persistent virtual world. The company aims to capitalize on the massive popularity of cricket in India and the growing interest in Web3 gaming. The funds will be used for game development, hiring top talent, and securing official licensing from cricket boards. Kriyaverse is positioning its game as a next-generation platform for fan engagement, blending elements of fantasy sports, simulation, and social interaction. This is one of the largest early-stage investments in the Indian gaming sector this year, indicating strong investor confidence in the potential of blockchain-based gaming in the country.",
+            "source": "TechCrunch",
+            "published_at": "2025-09-13T10:00:00Z"
+        },
+        {
+            "title": "Wipro Bags Multi-Year Deal with Major Indian Airline for Digital Overhaul",
+            "description": "IT services major Wipro has announced a multi-year, multi-million dollar contract with one of India's leading airlines to lead its digital transformation journey. Wipro will be responsible for modernizing the airline's passenger service system, developing a new AI-powered mobile app, and migrating its data centers to a hybrid cloud environment. The project aims to create a more personalized and seamless travel experience for passengers, from booking to baggage claim. Key initiatives include implementing a dynamic pricing engine, an AI chatbot for customer service, and a predictive analytics platform for flight operations to minimize delays. This deal strengthens Wipro's position in the Indian aviation market and showcases its capabilities in delivering large-scale, end-to-end digital solutions. The project will be managed from Wipro's dedicated delivery centers in Bengaluru and Gurugram.",
+            "source": "Business Today",
+            "published_at": "2025-09-17T06:30:00Z"
+        },
+        {
+            "title": "Gig-Economy Growth Fuels Demand for Micro-SaaS Financial Tools in India",
+            "description": "The rapid expansion of India's gig economy is creating a burgeoning market for micro-SaaS platforms offering financial tools tailored for freelancers and independent contractors. A new report by NASSCOM highlights that startups providing solutions for automated invoicing, tax filing, and expense management are seeing significant traction. These platforms address a critical gap, as traditional accounting software is often too complex or expensive for individual gig workers. The report estimates that the market for these specialized financial tools could reach $500 million in India by 2028. Companies are attracting users by offering freemium models and integrating directly with popular gig work platforms. This trend reflects a broader shift towards specialized, vertical SaaS products that cater to the unique needs of the modern Indian workforce, which is increasingly moving away from traditional employment structures.",
+            "source": "NASSCOM",
+            "published_at": "2025-09-12T13:00:00Z"
+        },
+        {
+            "title": "Indian Olympic Association to Launch NFT Platform for Digital Collectibles",
+            "description": "The Indian Olympic Association (IOA) is set to launch its own official NFT platform, offering fans digital collectibles of iconic moments and celebrated athletes from India's Olympic history. The platform, developed in partnership with a leading Indian blockchain company, will feature limited-edition video moments, autographed digital memorabilia, and unique artwork. The goal is to create a new revenue stream for the IOA and a novel way for fans to connect with and support their sporting heroes. A portion of the proceeds from NFT sales will go directly to the athletes and towards funding sports development programs across the country. The first collection, scheduled to drop ahead of the next Asian Games, will celebrate India's historic track and field performances. This initiative marks the official entry of a major Indian sports body into the Web3 space, following the trend set by global sports leagues.",
+            "source": "CoinSwitch Kuber",
+            "published_at": "2025-09-16T16:30:00Z"
+        },
+        {
+            "title": "Zoho Announces New Low-Code Platform for Indian Enterprises to Build Custom Apps",
+            "description": "SaaS provider Zoho has launched 'Zoho Catalyst', a new low-code application development platform aimed at Indian enterprises. The platform allows businesses to build and deploy custom web and mobile applications with minimal coding, using a visual drag-and-drop interface. Catalyst is designed to empower non-technical employees to create tools for automating specific business processes, thereby reducing the dependency on overloaded IT departments. The platform is deeply integrated with the rest of the Zoho One suite and is hosted in Zoho's data centers in India, ensuring data sovereignty for local businesses. With this launch, Zoho is directly competing with global players like Microsoft Power Apps and Mendix for a share of India's rapidly growing low-code development market, which is being driven by the need for rapid digitization among both large corporations and SMBs.",
+            "source": "ET CIO",
+            "published_at": "2025-09-15T11:00:00Z"
+        },
+        {
+            "title": "Policybazaar Parent PB Fintech Gets RBI Nod for Payment Aggregator License",
+            "description": "PB Fintech, the parent company of insurtech giant Policybazaar, has received in-principle approval from the Reserve Bank of India (RBI) to operate as a payment aggregator. This license will allow the company to directly process payments for insurance premiums and other financial products on its platform, without relying on third-party gateways. This is a strategic move for the Gurugram-based company, as it will provide greater control over the payment experience, reduce transaction costs, and enable the introduction of new financial services like recurring payments and credit options for its customers. The company stated it will now focus on building a robust, in-house payment infrastructure to meet the RBI's stringent compliance and security standards. This development is expected to enhance the company's monetization capabilities and further solidify its dominant position in the Indian insurance distribution market.",
+            "source": "Livemint",
+            "published_at": "2025-09-12T15:30:00Z"
+        },
+        {
+            "title": "AI-Based Scouting Platform 'Scout India' Helps Discover Grassroots Football Talent",
+            "description": "A new AI-powered platform called 'Scout India' is helping football clubs and academies discover promising young talent from remote corners of the country. The platform allows amateur players to upload videos of themselves performing specific drills and playing in matches. Its computer vision algorithms then analyze the footage to assess key metrics like speed, agility, shooting accuracy, and tactical awareness. The system generates a standardized performance score for each player, creating a national database that professional scouts can easily filter and search. This technology is democratizing talent identification, which has historically been concentrated in major urban centers. Several ISL youth academies have already signed up for the platform to broaden their scouting networks. Scout India aims to ensure that talented players, regardless of their location or economic background, get a fair chance to be noticed by professional clubs.",
+            "source": "Khel Now",
+            "published_at": "2025-09-11T17:00:00Z"
+        },
+        {
+            "title": "HCLTech Launches 'CloudVerse', a Unified Platform for Multi-Cloud Management",
+            "description": "Noida-based HCLTech has launched 'CloudVerse', a new software platform designed to help enterprises manage their workloads across multiple cloud environments like AWS, Azure, and Google Cloud. CloudVerse provides a single pane of glass for monitoring performance, managing costs, and ensuring security and compliance across a company's entire cloud estate. The platform uses AI-driven analytics to provide recommendations for cost optimization, such as identifying underutilized resources and suggesting more efficient instance types. It also automates complex tasks like resource provisioning and compliance reporting. This launch addresses a major pain point for Indian companies that have adopted a multi-cloud strategy but struggle with the resulting operational complexity and spiraling costs. CloudVerse is part of HCLTech's strategy to move up the value chain by offering more high-margin, product-based solutions in addition to its traditional IT services.",
+            "source": "CRN India",
+            "published_at": "2025-09-17T09:45:00Z"
+        },
+        {
+            "title": "Indian E-commerce Exports Set to Reach $200 Billion by 2030, Report Says",
+            "description": "A new report from a leading consulting firm in collaboration with a major e-commerce platform predicts that India's e-commerce exports could surge to $200 billion annually by 2030. This growth is being driven by an increasing number of small and medium-sized enterprises (SMEs) from India leveraging online platforms to sell their products directly to consumers globally. The report highlights the role of government initiatives like 'Make in India' and improvements in logistics infrastructure. Software platforms that simplify cross-border payments, compliance, and shipping are also playing a crucial role in empowering these small businesses. Categories like Indian textiles, handicrafts, jewelry, and wellness products are seeing immense demand in international markets. This trend marks a significant shift, enabling small Indian brands to build a global presence without the need for traditional, capital-intensive export channels, thereby boosting the national economy.",
+            "source": "Business Standard",
+            "published_at": "2025-09-17T07:15:00Z"
+        },
+        {
+            "title": "Rise of Virtual Reality Fitness in India Post-Pandemic",
+            "description": "The Indian fitness industry is witnessing a significant rise in the adoption of Virtual Reality (VR) based workout solutions. Startups offering immersive VR fitness apps are gaining popularity, especially in metropolitan cities like Mumbai and Delhi. These apps transport users to virtual environments where they can engage in gamified workouts, from boxing in a futuristic arena to cycling through scenic landscapes. The trend is driven by a desire for more engaging and convenient home fitness options, a habit formed during the pandemic. Companies are creating subscription-based models that provide users with access to a library of workouts and live classes. While the high cost of VR headsets remains a barrier for mass adoption, the market is growing among affluent urban consumers. This emerging sector represents a new intersection of health, technology, and entertainment in the Indian market.",
+            "source": "Health-tech India",
+            "published_at": "2025-09-16T10:00:00Z"
+        },
+        {
+            "title": "Open Network for Digital Commerce (ONDC) Crosses 5 Million Monthly Transactions",
+            "description": "The Open Network for Digital Commerce (ONDC), India's ambitious open e-commerce network, has crossed a new milestone of 5 million retail transactions in a single month. This marks a significant acceleration in adoption since its public launch. The growth has been primarily driven by the food and beverage and grocery categories, with increasing participation from small, local sellers in Tier-2 and Tier-3 cities. The ONDC aims to unbundle the e-commerce ecosystem, allowing any seller to be discoverable by any buyer, regardless of the app they use, thereby challenging the dominance of platforms like Amazon and Flipkart. While the transaction volume is still a small fraction of the overall e-commerce market, the rapid growth indicates that the open network model is gaining traction. The focus now is on improving seller onboarding, logistics integration, and expanding into new product categories like fashion and electronics.",
+            "source": "Medianama",
+            "published_at": "2025-09-12T11:00:00Z"
+        },
+        {
+            "title": "PhonePe Enters Indian App Store Market with 'Indus Appstore'",
+            "description": "Walmart-backed fintech giant PhonePe has officially launched its own Android app marketplace for the Indian market, named 'Indus Appstore'. The move is a direct challenge to the dominance of Google's Play Store in India. Indus Appstore aims to differentiate itself by offering developers zero commission on in-app purchases for the first year, followed by a competitive flat commission rate. The platform also supports 12 Indian languages, allowing developers to reach a wider, more diverse audience. For users, it offers a curated experience and localized content. This is a strategic diversification for PhonePe, leveraging its massive user base of over 400 million to build a new ecosystem. The launch is set to intensify competition in India's app economy and could provide developers with a more equitable and localized alternative for distributing their applications.",
+            "source": "The Ken",
+            "published_at": "2025-09-15T16:45:00Z"
+        },
+        {
+            "title": "Indian Government Mandates Cybersecurity Audits for all Power Grid Software",
+            "description": "In response to growing threats against critical infrastructure, the Indian Ministry of Power has issued a new directive mandating comprehensive cybersecurity audits for all software systems used in the country's power grid. This includes SCADA systems, grid management software, and any IoT devices connected to the network. The audits must be conducted by CERT-In empaneled agencies and will assess vulnerabilities to malware, ransomware, and state-sponsored cyberattacks. The directive also establishes a framework for continuous monitoring and rapid response to security incidents. This policy is part of a broader national strategy to secure India's critical infrastructure from cyber threats. Power distribution companies (Discoms) have been given a six-month deadline to comply with the new regulations, which are designed to enhance the resilience and security of the national electricity supply chain against potential disruptions.",
+            "source": "ET EnergyWorld",
+            "published_at": "2025-09-11T12:30:00Z"
+        },
+        {
+            "title": "Gaming Content Creators in India See 40% Rise in Earnings in 2025",
+            "description": "A new report on India's creator economy reveals that gaming content creators have seen their average earnings increase by over 40% in the past year. This surge is attributed to the growing popularity of esports, the rise of game streaming platforms like YouTube Gaming and Loco, and increased brand investment in the sector. Brands are now looking beyond top-tier creators and are engaging with micro-influencers who have dedicated followings in specific gaming communities, such as Valorant, BGMI, and FIFA. The report also highlights a shift towards live streaming and short-form video content as the primary monetization channels. The growth in earnings is enabling many gamers to pursue content creation as a full-time career, further professionalizing the Indian gaming ecosystem and creating a new avenue for digital advertising.",
+            "source": "AFK Gaming",
+            "published_at": "2025-09-14T19:00:00Z"
+        },
+        {
+            "title": "Indian Space Research Organisation (ISRO) to Launch Dedicated Navigation Satellite for Fisheries",
+            "description": "ISRO has announced plans to launch a dedicated satellite as part of its NavIC constellation, specifically to aid India's fishing community. The satellite will provide high-precision location data and broadcast critical information directly to specialized receivers on fishing boats. This will include alerts about weather conditions, potential fishing zones, and maritime boundaries to prevent fishermen from straying into international waters. The service aims to improve the safety and efficiency of fishing operations, which form the backbone of the coastal economy. This initiative is a prime example of using advanced space technology for societal benefit and grassroots economic development. ISRO is working with the Ministry of Fisheries to distribute the receivers to fishermen at a subsidized cost. The launch is scheduled for the first half of 2026 from the Satish Dhawan Space Centre in Sriharikota.",
+            "source": "ISRO Official Updates",
+            "published_at": "2025-09-17T13:45:00Z"
+        },
+        {
+            "title": "Swiggy Rolls Out EV Fleet for Instamart Deliveries in Major Indian Cities",
+            "description": "Food and grocery delivery platform Swiggy has announced its commitment to transition its entire Instamart delivery fleet to electric vehicles (EVs) by 2028. As a first step, the company has started rolling out a dedicated EV fleet in Delhi, Bengaluru, and Hyderabad. Swiggy has partnered with several EV manufacturers and battery-swapping infrastructure providers to support this transition. The move is part of the company's broader sustainability goals and is also expected to result in significant long-term cost savings on fuel and maintenance. By electrifying its quick commerce vertical, which involves a high frequency of short-distance trips, Swiggy aims to reduce its carbon footprint substantially. This initiative aligns with the Indian government's push for EV adoption and is expected to encourage other players in the last-mile delivery space to follow suit, thereby accelerating the growth of the commercial EV ecosystem in India.",
+            "source": "The Economic Times Auto",
+            "published_at": "2025-09-13T09:00:00Z"
+        },
+        {
+            "title": "New 'Digital Health Locker' Platform Launched by Indian Government",
+            "description": "The National Health Authority (NHA) has launched the 'Ayushman Bharat Digital Health Locker', a secure cloud-based platform for Indian citizens to store and manage their health records. Integrated with the Ayushman Bharat Digital Mission (ABDM), the locker allows users to link records from different hospitals and labs, creating a comprehensive medical history that can be easily shared with doctors. The platform uses a consent-based mechanism, ensuring that users have full control over who can access their data. This initiative aims to eliminate the need for physical health records, reduce diagnostic errors, and enable better continuity of care. The health locker can be accessed through the official ABDM mobile app and is a crucial piece of infrastructure in the government's plan to build a national digital health ecosystem, making healthcare more efficient and accessible for all citizens.",
+            "source": "PIB India",
+            "published_at": "2025-09-17T10:45:00Z"
+        },
+        {
+            "title": "Paytm Expands into Wealth Management with Acquisition of Mutual Fund Advisory Firm",
+            "description": "Fintech major Paytm has strengthened its wealth management offerings with the acquisition of a Mumbai-based mutual fund advisory firm for an undisclosed amount. The acquired firm specializes in using algorithmic models to create personalized investment portfolios for retail investors. This acquisition will be integrated into Paytm Money, the company's wealth management arm, to enhance its advisory capabilities and provide more sophisticated investment products to its user base. The move signals Paytm's ambition to become a comprehensive financial services platform, moving beyond payments and into higher-margin businesses like lending, insurance, and wealth management. The integration will allow Paytm to leverage its vast user data to offer tailored investment advice at scale, competing directly with other wealth tech platforms like Zerodha and Groww in the rapidly growing Indian investment market.",
+            "source": "YourStory",
+            "published_at": "2025-09-11T14:30:00Z"
+        },
+        {
+            "title": "Indian EdTech Platform 'GuruQ' Uses AI to Personalize Learning Paths for Students",
+            "description": "Noida-based edtech platform GuruQ is using artificial intelligence to create highly personalized learning paths for K-12 students across India. The platform's AI engine analyzes a student's performance in diagnostic tests to identify specific strengths and weaknesses in subjects like math and science. Based on this analysis, it generates a customized study plan with curated video lessons, practice questions, and adaptive tests that focus on areas needing improvement. This data-driven approach moves away from the traditional one-size-fits-all model of education. The platform also provides parents and teachers with detailed analytics dashboards to track a student's progress in real time. As the Indian edtech sector consolidates, platforms offering deep personalization and demonstrable learning outcomes are gaining a competitive edge, shifting the focus from user acquisition to student performance.",
+            "source": "EdTechReview",
+            "published_at": "2025-09-16T13:45:00Z"
+        },
+        {
+            "title": "India's Domestic Semiconductor Consumption to Exceed $80 Billion by 2026",
+            "description": "A joint report by the India Electronics and Semiconductor Association (IESA) and a global market research firm projects that India's domestic semiconductor consumption will surpass $80 billion by 2026, up from $27 billion in 2021. This growth is being fueled by the expanding electronics manufacturing sector, particularly in mobile phones, consumer electronics, and automotive components. The report underscores the urgent need for India to develop its own semiconductor manufacturing ecosystem to reduce its heavy reliance on imports and enhance its economic security. It highlights the positive impact of the government's Production Linked Incentive (PLI) scheme for semiconductors but also calls for further investment in R&D and talent development. The findings add momentum to India's strategic push to become a significant player in the global semiconductor supply chain, with the potential to create thousands of high-skilled jobs.",
+            "source": "IESA Report",
+            "published_at": "2025-09-14T09:30:00Z"
+        },
+        {
+            "title": "FanCode to Live Stream Indian Domestic Cricket with Interactive Overlays",
+            "description": "Digital sports platform FanCode has secured the rights to exclusively stream all of India's domestic cricket matches, including the Ranji Trophy and Vijay Hazare Trophy. The platform plans to enhance the viewing experience by introducing interactive features powered by its proprietary technology. Viewers will have access to real-time player statistics, predictive analytics, and graphical overlays that can be toggled on or off. The service will also offer multi-language commentary and allow fans to purchase official merchandise directly from the streaming interface. This move aims to cater to the modern sports fan who seeks a more engaging and data-rich viewing experience. By focusing on domestic cricket, which has traditionally received less broadcast coverage, FanCode is carving out a niche in the competitive Indian sports streaming market, targeting dedicated cricket enthusiasts.",
+            "source": "InsideSport",
+            "published_at": "2025-09-15T13:15:00Z"
+        },
+        {
+            "title": "Indian SaaS Companies Shift Focus to Vertical-Specific Solutions for Global Markets",
+            "description": "The Indian Software-as-a-Service (SaaS) industry is undergoing a strategic shift from creating horizontal, one-size-fits-all products to developing deep, vertical-specific solutions. A recent analysis shows that a new wave of Indian SaaS startups is building products tailored for niche global industries like construction, life sciences, and logistics. These 'vertical SaaS' companies are able to build a strong competitive moat by addressing the unique workflows and regulatory requirements of a specific industry. This approach leads to higher customer retention and greater pricing power compared to horizontal SaaS products. This trend marks the maturation of the Indian SaaS ecosystem, which is now moving beyond generic CRM and HR tools to solve complex, industry-specific problems for a global clientele, further cementing India's reputation as a world-class software product nation.",
+            "source": "SaaSBoomi",
+            "published_at": "2025-09-13T16:00:00Z"
+        },
+        {
+            "title": "Mumbai-Based Fintech 'LendEasy' Uses Alternative Data for SME Lending",
+            "description": "Fintech startup LendEasy is carving a niche in the SME lending market by using alternative data sources to assess creditworthiness. Instead of relying solely on traditional credit scores, the platform's AI-powered underwriting model analyzes a wide range of data points, including a business's GST returns, e-commerce sales data, and even its social media engagement. This allows LendEasy to provide unsecured working capital loans to new-to-credit small businesses that would typically be rejected by traditional banks. The entire process, from application to disbursal, is digital and can be completed within 24 hours. By tapping into the vast, underserved market of small and micro-enterprises, the Mumbai-based company is promoting financial inclusion and helping to formalize a large segment of the Indian economy. The startup recently raised a new round of funding to expand its operations to more cities.",
+            "source": "Fintech Futures",
+            "published_at": "2025-09-16T08:30:00Z"
+        },
+        {
+            "title": "Indian Railways to Use AI for Predictive Maintenance of Tracks and Rolling Stock",
+            "description": "Indian Railways is embarking on a massive project to implement an AI-based predictive maintenance system across its entire network. The system will use data from track-side sensors, ultrasonic inspections, and IoT devices installed on locomotives and coaches to predict potential equipment failures before they occur. The AI models will analyze patterns in vibration, temperature, and wear-and-tear data to identify assets that are at high risk of failing. This will allow maintenance crews to move from a traditional, schedule-based maintenance approach to a more efficient, condition-based one. The project aims to significantly improve safety by reducing derailments and other accidents caused by equipment failure, while also increasing the availability and reliability of the railway fleet. The Centre for Railway Information Systems (CRIS) is leading the development of the software platform in-house.",
+            "source": "Rail Analysis India",
+            "published_at": "2025-09-12T10:15:00Z"
+        },
+        {
+            "title": "Esports to be Included as Official Medal Sport in India's National Games",
+            "description": "In a landmark decision, the Indian Olympic Association has announced that Esports will be included as a full medal event in the next edition of the National Games. The competition will feature several popular gaming titles, including a multiplayer battle royale game, a football simulation game, and a strategy game, with separate categories for male and female athletes. The Esports Federation of India will be responsible for conducting the national qualifiers and selecting the athletes who will represent their respective states. This official recognition is a massive boost for the legitimacy of competitive gaming in India and is expected to encourage more investment in grassroots talent development and professional leagues. The move reflects the growing global trend of integrating esports into traditional multi-sport events and acknowledges its immense popularity among the youth in India.",
+            "source": "The Esports Observer",
+            "published_at": "2025-09-17T14:15:00Z"
+        },
+        {
+            "title": "MakeMyTrip Launches AI-Powered 'TripPlanner' for Personalized Itineraries",
+            "description": "Online travel agent MakeMyTrip has launched a new feature called 'TripPlanner', which uses generative AI to create personalized travel itineraries for users. The tool functions as a conversational chatbot where users can input their destination, travel dates, budget, and interests in natural language. The AI then generates a detailed day-by-day itinerary, complete with suggestions for flights, hotels, activities, and restaurants, along with booking links. The planner can cater to a wide range of travel styles, from luxury vacations to backpacking trips across India. This feature is designed to simplify the complex process of travel planning and provide a more engaging user experience. It represents a significant application of large language models in the Indian online travel industry, moving beyond simple booking transactions to offer a comprehensive and intelligent travel planning service.",
+            "source": "Tnooz",
+            "published_at": "2025-09-11T19:00:00Z"
+        },
+        {
+            "title": "Indian Agritech Startup 'Fasal' Raises Funds for AI-Powered Crop Monitoring System",
+            "description": "Agritech startup Fasal has raised $10 million in a new funding round to expand its AI-powered horticulture management system across India. The company's platform uses on-farm IoT sensors to collect real-time data on micro-climatic conditions, soil moisture, and pest infestations. This data is then fed into an AI engine that provides farmers with precise, actionable advice on irrigation, pesticide application, and disease prevention via a mobile app available in multiple regional languages. Fasal claims its technology helps farmers reduce water consumption by up to 50% and increase crop yields by over 20%. The new funds will be used to scale up its operations, enhance its AI capabilities, and expand its services to include more crop varieties. This highlights a key economic trend where technology is being used to optimize resource usage and improve profitability in India's agricultural sector.",
+            "source": "VCCircle",
+            "published_at": "2025-09-15T10:00:00Z"
+        },
+        {
+            "title": "Hyperlocal Content Platform 'Public' Uses AI for Automated News Summarization in Vernacular Languages",
+            "description": "Public, a leading hyperlocal video content platform in India, has deployed a new AI system to automatically summarize local news articles into short video scripts. The system uses advanced NLP models to read news text, extract the key information, and generate a concise summary in one of several Indian languages. This summary is then used as a script for video explainers, which are quickly produced and published on the app. This technology allows Public to dramatically increase the volume and speed of its news coverage for thousands of small towns and cities across India. It is a powerful example of how AI can be used to scale content creation and bridge the information gap in local communities. The software was developed by the company's in-house AI team in Bengaluru and is helping to deliver relevant and timely news to millions of users in their native language.",
+            "source": "Exchange4Media",
+            "published_at": "2025-09-14T12:00:00Z"
+        },
+        {
+            "title": "Indian Premier League (IPL) Media Rights Value Crosses ₹70,000 Crore, Driven by Digital Bids",
+            "description": "The media rights for the next five-year cycle of the Indian Premier League (IPL) have been sold for a staggering sum exceeding ₹70,000 crore, making it one of the most valuable sports leagues globally. A significant factor in this massive valuation was the aggressive bidding for the digital rights package, which for the first time was sold separately from the television rights. The digital rights were secured by a major tech-first media company, highlighting the dramatic shift in how Indian audiences consume sports content. The high price reflects the immense economic value of live cricket in India and the intense competition between streaming platforms to acquire premium content that can drive user subscriptions. This deal will inject a massive amount of capital into the Indian cricket ecosystem, further boosting player salaries, stadium infrastructure, and grassroots development programs.",
+            "source": "The Economic Times",
+            "published_at": "2025-09-16T19:00:00Z"
+        },
+        {
+            "title": "Cybersecurity Skill Gap in India Reaches 1.5 Million, New Government Program Aims to Bridge It",
+            "description": "According to a new report from a leading industry body, the cybersecurity skill gap in India has widened to an estimated 1.5 million professionals. The demand for skilled cybersecurity experts far outstrips the available supply, posing a significant risk to the nation's digital economy. To address this, the Ministry of Electronics and Information Technology (MeitY) has launched 'CyberSuraksha', a new public-private partnership program to train one million students and professionals in cybersecurity over the next three years. The program will offer specialized courses in areas like ethical hacking, cloud security, and digital forensics through a network of partner universities and online platforms. The initiative is a critical economic and security measure, aiming to build a robust talent pipeline to protect India's critical infrastructure and rapidly growing digital services from sophisticated cyber threats.",
+            "source": "Data Security Council of India (DSCI)",
+            "published_at": "2025-09-17T05:00:00Z"
+        },
+        {
+            "title": "JioGames Partners with Global Developers to Bring Cloud Gaming to India",
+            "description": "JioGames has announced strategic partnerships with several global game development studios to bring a triple-A cloud gaming experience to India. Leveraging the low latency of its 5G network, the service will allow users to stream high-end PC and console games directly to their smartphones, Jio Set-top Box, and other compatible devices without needing expensive hardware. The subscription-based service, called 'JioCloud Gaming', is currently in beta testing in select cities and is expected to launch nationwide by mid-2026. This move could revolutionize the gaming market in India, making high-quality gaming accessible to millions who cannot afford dedicated gaming consoles or PCs. It represents a key part of Jio's strategy to build a suite of compelling use cases that will drive the adoption of its 5G services and position it as a leader in India's digital entertainment landscape.",
+            "source": "Gadgets 360",
+            "published_at": "2025-09-16T12:30:00Z"
+        },
+        {
+            "title": "Pune-based Startup Develops Low-Cost Lithium-Ion Battery Recycling Technology",
+            "description": "A clean-tech startup based in Pune has developed an innovative and cost-effective method for recycling lithium-ion batteries, a critical challenge for India's growing electric vehicle (EV) market. Their patented hydro-metallurgical process can recover over 95% of valuable materials like lithium, cobalt, and nickel from used batteries with minimal environmental impact. This 'urban mining' technology is crucial for creating a circular economy for batteries in India, reducing reliance on imported raw materials, the prices of which are highly volatile. The company has just commissioned its first pilot plant and is in talks with major Indian EV manufacturers and battery producers to establish a collection and recycling ecosystem. This technological breakthrough has significant economic implications, as it can help stabilize the battery supply chain and make EV manufacturing in India more sustainable and self-sufficient.",
+            "source": "CleanTechnica India",
+            "published_at": "2025-09-12T17:45:00Z"
+        }
+    ]
+}
