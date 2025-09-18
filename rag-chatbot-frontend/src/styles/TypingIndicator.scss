@@ -1,5 +1,3 @@
-@import './App.scss';
-
 .typing-indicator {
     display: flex;
     gap: 0.75rem;
@@ -9,7 +7,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: linear-gradient(135deg, $bg-tertiary, #cbd5e1);
+        background: linear-gradient(135deg, var(--bg-tertiary), #cbd5e1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -19,7 +17,7 @@
         .avatar-icon {
             width: 20px;
             height: 20px;
-            color: $primary-color;
+            color: var(--primary-color);
         }
 
         @media (max-width: 480px) {
@@ -47,10 +45,10 @@
 
     &__bubble {
         padding: 0.75rem 1rem;
-        border-radius: $border-radius;
-        background-color: $bg-primary;
-        border: 1px solid $border-color;
-        box-shadow: $shadow;
+        border-radius: 12px;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         width: fit-content;
 
         @media (max-width: 480px) {
@@ -68,7 +66,7 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: $text-muted;
+        background-color: var(--text-muted);
         animation: typingDot 1.4s ease-in-out infinite;
 
         &:nth-child(1) {

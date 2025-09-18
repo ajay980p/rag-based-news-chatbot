@@ -1,8 +1,6 @@
-@import './App.scss';
-
 .chat-input {
-    background: linear-gradient(135deg, $bg-primary 0%, #f8fafc 100%);
-    border-top: 1px solid $border-color;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #f8fafc 100%);
+    border-top: 1px solid var(--border-color);
     padding: 1rem 1.5rem;
     position: sticky;
     bottom: 0;
@@ -13,16 +11,16 @@
         gap: 0.5rem;
         align-items: flex-end;
         max-width: 100%;
-        background: $bg-primary;
-        border: 2px solid $border-color;
-        border-radius: $border-radius;
+        background: var(--bg-primary);
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
         padding: 0.5rem;
         transition: all 0.3s ease;
-        box-shadow: $shadow;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
         &--focused {
-            border-color: $primary-color;
-            box-shadow: 0 0 0 4px rgba($primary-color, 0.1), $shadow-lg;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     }
 
@@ -38,11 +36,11 @@
         justify-content: center;
         cursor: pointer;
         transition: all 0.2s ease;
-        color: $text-muted;
+        color: var(--text-muted);
 
         &:hover:not(:disabled) {
-            background-color: $bg-secondary;
-            color: $primary-color;
+            background-color: var(--bg-secondary);
+            color: var(--primary-color);
         }
 
         &:disabled {
@@ -67,17 +65,17 @@
         font-family: inherit;
         font-size: 0.9rem;
         line-height: 1.5;
-        color: $text-primary;
+        color: var(--text-primary);
         background: transparent;
         resize: none;
         outline: none;
 
         &:hover {
-            background-color: $bg-secondary;
+            background-color: var(--bg-secondary);
         }
 
         &::placeholder {
-            color: $text-muted;
+            color: var(--text-muted);
         }
 
         &:disabled {
@@ -95,7 +93,7 @@
     &__send-btn {
         width: 36px;
         height: 36px;
-        background: linear-gradient(135deg, $primary-color, #3b82f6);
+        background: linear-gradient(135deg, var(--primary-color), #3b82f6);
         border: none;
         border-radius: 8px;
         display: flex;
@@ -104,12 +102,12 @@
         cursor: pointer;
         transition: all 0.2s ease;
         flex-shrink: 0;
-        box-shadow: 0 2px 4px rgba($primary-color, 0.3);
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
 
         &:hover:not(:disabled) {
-            background: linear-gradient(135deg, darken($primary-color, 5%), #2563eb);
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba($primary-color, 0.4);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
         }
 
         &:active:not(:disabled) {
@@ -117,7 +115,7 @@
         }
 
         &:disabled {
-            background: $bg-tertiary;
+            background: var(--bg-tertiary);
             cursor: not-allowed;
             box-shadow: none;
         }

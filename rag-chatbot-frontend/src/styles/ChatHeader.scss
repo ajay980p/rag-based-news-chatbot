@@ -1,14 +1,13 @@
-@import './App.scss';
-
 .chat-header {
-    background-color: $bg-primary;
-    background: linear-gradient(135deg, $bg-primary 0%, #f8fafc 100%);
-    border-bottom: 1px solid $border-color;
+    background-color: var(--bg-primary);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    border-bottom: 1px solid var(--border-color);
     padding: 1rem 1.5rem;
     position: sticky;
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
     &__content {
         display: flex;
@@ -33,7 +32,7 @@
     &__icon {
         width: 28px;
         height: 28px;
-        color: $primary-color;
+        color: var(--primary-color);
         z-index: 2;
     }
 
@@ -55,7 +54,7 @@
         h1 {
             font-size: 1.4rem;
             font-weight: 600;
-            color: $text-primary;
+            color: var(--text-primary);
             margin: 0;
             line-height: 1.2;
 
@@ -70,7 +69,7 @@
         align-items: center;
         gap: 0.5rem;
         font-size: 0.75rem;
-        color: $success-color;
+        color: var(--success-color);
         font-weight: 500;
 
         @media (max-width: 480px) {
@@ -81,8 +80,52 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: $success-color;
+            background-color: var(--success-color);
             animation: pulse 2s ease-in-out infinite;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    &__theme-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+        &:hover {
+            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+            border-color: var(--warning-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        .theme-icon {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        // Add rotation animation on theme change
+        &:hover .theme-icon {
+            transform: rotate(15deg);
         }
     }
 
@@ -90,23 +133,23 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        background: linear-gradient(135deg, $bg-primary, #f1f5f9);
-        border: 1px solid $border-color;
-        border-radius: $border-radius;
+        background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
         padding: 0.5rem 1rem;
-        color: $text-secondary;
+        color: var(--text-secondary);
         font-size: 0.875rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
-        box-shadow: $shadow;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
         &:hover {
-            background: linear-gradient(135deg, $primary-color, #3b82f6);
-            border-color: $primary-color;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            border-color: var(--primary-color);
             color: white;
             transform: translateY(-1px);
-            box-shadow: $shadow-lg;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         &:active {

@@ -1,9 +1,7 @@
-@import './App.scss';
-
 .chat-screen {
     flex: 1;
     overflow-y: auto;
-    background-color: $bg-secondary;
+    background-color: var(--bg-secondary);
     position: relative;
 
     &__messages {
@@ -29,11 +27,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: $border-color;
+        background-color: var(--border-color);
         border-radius: 3px;
 
         &:hover {
-            background-color: $text-muted;
+            background-color: var(--text-muted);
         }
     }
 }

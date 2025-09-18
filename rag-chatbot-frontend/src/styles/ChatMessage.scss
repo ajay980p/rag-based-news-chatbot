@@ -1,5 +1,3 @@
-@import './App.scss';
-
 .chat-message {
     display: flex;
     gap: 0.75rem;
@@ -9,9 +7,9 @@
         flex-direction: row-reverse;
 
         .chat-message__bubble {
-            background: linear-gradient(135deg, $primary-color, #3b82f6);
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
             color: white;
-            box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .chat-message__content {
@@ -21,9 +19,9 @@
 
     &--bot {
         .chat-message__bubble {
-            background: linear-gradient(135deg, $bg-primary, #f8fafc);
-            border: 1px solid $border-color;
-            color: $text-primary;
+            background: linear-gradient(135deg, var(--bg-primary), #f8fafc);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             position: relative;
 
             &::before {
@@ -33,8 +31,8 @@
                 left: 0;
                 right: 0;
                 height: 2px;
-                background: linear-gradient(90deg, $primary-color, #3b82f6, $primary-color);
-                border-radius: $border-radius $border-radius 0 0;
+                background: linear-gradient(90deg, var(--primary-color), #3b82f6, var(--primary-color));
+                border-radius: 12px 12px 0 0;
                 opacity: 0.6;
             }
         }
@@ -44,12 +42,12 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: linear-gradient(135deg, $bg-tertiary, #cbd5e1);
+        background: linear-gradient(135deg, var(--bg-tertiary), #cbd5e1);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        box-shadow: $shadow;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         transition: all 0.3s ease;
 
         &:hover {
@@ -59,7 +57,7 @@
         .avatar-icon {
             width: 20px;
             height: 20px;
-            color: $primary-color;
+            color: var(--primary-color);
         }
 
         @media (max-width: 480px) {
@@ -87,7 +85,7 @@
 
     &__bubble {
         padding: 0.75rem 1rem;
-        border-radius: $border-radius;
+        border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         word-wrap: break-word;
         transition: all 0.3s ease;
@@ -115,7 +113,7 @@
 
     &__timestamp {
         font-size: 0.7rem;
-        color: $text-muted;
+        color: var(--text-muted);
         padding: 0 0.25rem;
         font-weight: 500;
 
@@ -127,7 +125,7 @@
     .typing-cursor {
         animation: blink 1.2s infinite;
         font-weight: bold;
-        color: $primary-color;
+        color: var(--primary-color);
     }
 }
 

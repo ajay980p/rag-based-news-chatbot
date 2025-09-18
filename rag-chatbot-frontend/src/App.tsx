@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatHeader from './components/ChatHeader';
 import ChatScreen from './components/ChatScreen';
 import ChatInput from './components/ChatInput';
@@ -10,6 +10,26 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check for saved theme preference or default to light mode
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'dark';
+  });
+
+  // Apply theme to document and save preference
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const handleToggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const handleSendMessage = (text: string) => {
     const userMessage: Message = {
@@ -100,7 +120,11 @@ function App() {
 
   return (
     <div className="app">
-      <ChatHeader onReset={handleResetChat} />
+      <ChatHeader
+        onReset={handleResetChat}
+        isDarkMode={isDarkMode}
+        onToggleTheme={handleToggleTheme}
+      />
       {messages.length === 0 ? (
         <WelcomeScreen onSendMessage={handleSendMessage} />
       ) : (

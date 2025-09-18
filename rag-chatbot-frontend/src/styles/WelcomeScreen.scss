@@ -1,11 +1,9 @@
-@import './App.scss';
-
 .welcome-screen {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, $bg-secondary 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, #f1f5f9 100%);
     padding: 2rem;
     overflow-y: auto;
 
@@ -23,13 +21,13 @@
     &__logo {
         width: 80px;
         height: 80px;
-        background: linear-gradient(135deg, $primary-color, #3b82f6);
+        background: linear-gradient(135deg, var(--primary-color), #3b82f6);
         border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 2rem;
-        box-shadow: 0 10px 25px rgba($primary-color, 0.3);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
         animation: float 3s ease-in-out infinite;
 
         .logo-icon {
@@ -42,9 +40,9 @@
     &__title {
         font-size: 2.5rem;
         font-weight: 700;
-        color: $text-primary;
+        color: var(--text-primary);
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, $text-primary, $primary-color);
+        background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -56,7 +54,7 @@
 
     &__subtitle {
         font-size: 1.125rem;
-        color: $text-secondary;
+        color: var(--text-secondary);
         line-height: 1.7;
         max-width: 600px;
         margin: 0 auto;
@@ -85,7 +83,7 @@
     .suggestions-title {
         font-size: 1.25rem;
         font-weight: 600;
-        color: $text-primary;
+        color: var(--text-primary);
         margin-bottom: 1.5rem;
         text-align: center;
     }
@@ -102,44 +100,44 @@
 }
 
 .feature-card {
-    background: $bg-primary;
-    border-radius: $border-radius;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
     padding: 2rem;
-    box-shadow: $shadow;
+    box-shadow: var(--shadow);
     transition: all 0.3s ease;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color);
 
     &:hover {
         transform: translateY(-4px);
-        box-shadow: $shadow-lg;
-        border-color: $primary-color;
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
     }
 
     .feature-icon {
         width: 32px;
         height: 32px;
-        color: $primary-color;
+        color: var(--primary-color);
         margin-bottom: 1rem;
     }
 
     .feature-title {
         font-size: 1.125rem;
         font-weight: 600;
-        color: $text-primary;
+        color: var(--text-primary);
         margin-bottom: 0.5rem;
     }
 
     .feature-description {
-        color: $text-secondary;
+        color: var(--text-secondary);
         line-height: 1.6;
         margin: 0;
     }
 }
 
 .suggestion-card {
-    background: $bg-primary;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     padding: 1rem 1.5rem;
     text-align: left;
     cursor: pointer;
@@ -150,19 +148,19 @@
     gap: 1rem;
 
     &:hover {
-        border-color: $primary-color;
-        background: linear-gradient(135deg, $bg-primary, #f8fafc);
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--bg-primary), #f8fafc);
         transform: translateX(4px);
-        box-shadow: $shadow;
+        box-shadow: var(--shadow);
 
         .suggestion-arrow {
             transform: translateX(4px);
-            color: $primary-color;
+            color: var(--primary-color);
         }
     }
 
     .suggestion-text {
-        color: $text-primary;
+        color: var(--text-primary);
         font-weight: 500;
         flex: 1;
     }
@@ -170,7 +168,7 @@
     .suggestion-arrow {
         width: 16px;
         height: 16px;
-        color: $text-muted;
+        color: var(--text-muted);
         transition: all 0.3s ease;
         flex-shrink: 0;
     }

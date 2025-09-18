@@ -1,12 +1,14 @@
 import React from 'react';
-import { RotateCcw, Newspaper, Sparkles } from 'lucide-react';
+import { RotateCcw, Newspaper, Sparkles, Sun, Moon } from 'lucide-react';
 import '../styles/ChatHeader.scss';
 
 interface ChatHeaderProps {
     onReset: () => void;
+    isDarkMode: boolean;
+    onToggleTheme: () => void;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ onReset }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ onReset, isDarkMode, onToggleTheme }) => {
     return (
         <header className="chat-header">
             <div className="chat-header__content">
@@ -23,14 +25,23 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ onReset }) => {
                         </span>
                     </div>
                 </div>
-                <button
-                    className="chat-header__reset-btn"
-                    onClick={onReset}
-                    title="Reset Chat"
-                >
-                    <RotateCcw className="reset-icon" />
-                    <span>Reset</span>
-                </button>
+                <div className="chat-header__actions">
+                    <button
+                        className="chat-header__theme-btn"
+                        onClick={onToggleTheme}
+                        title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    >
+                        {isDarkMode ? <Sun className="theme-icon" /> : <Moon className="theme-icon" />}
+                    </button>
+                    <button
+                        className="chat-header__reset-btn"
+                        onClick={onReset}
+                        title="Reset Chat"
+                    >
+                        <RotateCcw className="reset-icon" />
+                        <span>Reset</span>
+                    </button>
+                </div>
             </div>
         </header>
     );
