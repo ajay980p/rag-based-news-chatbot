@@ -1,0 +1,113 @@
+@import './App.scss';
+
+.typing-indicator {
+    display: flex;
+    gap: 0.75rem;
+    animation: fadeInUp 0.3s ease-out;
+
+    &__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $bg-tertiary, #cbd5e1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        animation: pulse 2s ease-in-out infinite;
+
+        .avatar-icon {
+            width: 20px;
+            height: 20px;
+            color: $primary-color;
+        }
+
+        @media (max-width: 480px) {
+            width: 32px;
+            height: 32px;
+
+            .avatar-icon {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
+    &__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        max-width: calc(100% - 64px);
+
+        @media (max-width: 768px) {
+            max-width: calc(100% - 56px);
+        }
+    }
+
+    &__bubble {
+        padding: 0.75rem 1rem;
+        border-radius: $border-radius;
+        background-color: $bg-primary;
+        border: 1px solid $border-color;
+        box-shadow: $shadow;
+        width: fit-content;
+
+        @media (max-width: 480px) {
+            padding: 0.6rem 0.8rem;
+        }
+    }
+}
+
+.typing-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $text-muted;
+        animation: typingDot 1.4s ease-in-out infinite;
+
+        &:nth-child(1) {
+            animation-delay: 0ms;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 200ms;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 400ms;
+        }
+    }
+}
+
+@keyframes typingDot {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}

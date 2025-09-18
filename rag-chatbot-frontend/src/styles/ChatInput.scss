@@ -1,0 +1,163 @@
+@import './App.scss';
+
+.chat-input {
+    background: linear-gradient(135deg, $bg-primary 0%, #f8fafc 100%);
+    border-top: 1px solid $border-color;
+    padding: 1rem 1.5rem;
+    position: sticky;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+
+    &__container {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        max-width: 100%;
+        background: $bg-primary;
+        border: 2px solid $border-color;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: $shadow;
+
+        &--focused {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 4px rgba($primary-color, 0.1), $shadow-lg;
+        }
+    }
+
+    &__attachment-btn,
+    &__voice-btn {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: $text-muted;
+
+        &:hover:not(:disabled) {
+            background-color: $bg-secondary;
+            color: $primary-color;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .attachment-icon,
+        .voice-icon {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    &__field {
+        flex: 1;
+        min-height: 36px;
+        max-height: 120px;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: $text-primary;
+        background: transparent;
+        resize: none;
+        outline: none;
+
+        &:hover {
+            background-color: $bg-secondary;
+        }
+
+        &::placeholder {
+            color: $text-muted;
+        }
+
+        &:disabled {
+            background-color: transparent;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 16px; // Prevents zoom on iOS
+            padding: 0.5rem;
+        }
+    }
+
+    &__send-btn {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, $primary-color, #3b82f6);
+        border: none;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        box-shadow: 0 2px 4px rgba($primary-color, 0.3);
+
+        &:hover:not(:disabled) {
+            background: linear-gradient(135deg, darken($primary-color, 5%), #2563eb);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba($primary-color, 0.4);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            background: $bg-tertiary;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        &--loading {
+            pointer-events: none;
+        }
+
+        .send-icon {
+            width: 16px;
+            height: 16px;
+            color: white;
+
+            &.loading {
+                animation: spin 1s linear infinite;
+            }
+        }
+
+        @media (max-width: 480px) {
+            width: 32px;
+            height: 32px;
+
+            .send-icon {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.75rem 1rem;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

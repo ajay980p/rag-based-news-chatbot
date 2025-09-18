@@ -1,0 +1,39 @@
+@import './App.scss';
+
+.chat-screen {
+    flex: 1;
+    overflow-y: auto;
+    background-color: $bg-secondary;
+    position: relative;
+
+    &__messages {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        min-height: 100%;
+
+        @media (max-width: 768px) {
+            padding: 1rem;
+            gap: 1rem;
+        }
+    }
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $border-color;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: $text-muted;
+        }
+    }
+}

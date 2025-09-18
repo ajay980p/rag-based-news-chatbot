@@ -1,0 +1,157 @@
+@import './App.scss';
+
+.chat-header {
+    background-color: $bg-primary;
+    background: linear-gradient(135deg, $bg-primary 0%, #f8fafc 100%);
+    border-bottom: 1px solid $border-color;
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__logo {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__icon {
+        width: 28px;
+        height: 28px;
+        color: $primary-color;
+        z-index: 2;
+    }
+
+    &__sparkle {
+        width: 16px;
+        height: 16px;
+        color: #fbbf24;
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        animation: sparkle 2s ease-in-out infinite;
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: $text-primary;
+            margin: 0;
+            line-height: 1.2;
+
+            @media (max-width: 480px) {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    &__status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: $success-color;
+        font-weight: 500;
+
+        @media (max-width: 480px) {
+            display: none;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: $success-color;
+            animation: pulse 2s ease-in-out infinite;
+        }
+    }
+
+    &__reset-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, $bg-primary, #f1f5f9);
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        padding: 0.5rem 1rem;
+        color: $text-secondary;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: $shadow;
+
+        &:hover {
+            background: linear-gradient(135deg, $primary-color, #3b82f6);
+            border-color: $primary-color;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: $shadow-lg;
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        .reset-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        span {
+            @media (max-width: 480px) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            padding: 0.5rem;
+        }
+    }
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2) rotate(180deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
