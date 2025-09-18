@@ -128,6 +128,34 @@ export const resetSession = async (req: Request, res: Response) => {
 };
 
 /**
+ * Delete a chat session
+ */
+export const deleteSession = async (req: Request, res: Response) => {
+    try {
+        const sessionId = req.params.id;
+
+        // Check if session exists
+        const currentSession = await getSession(sessionId);
+        if (currentSession === null) {
+            sessionLogger.warn(`Attempted to delete non-existent session: ${sessionId}`);
+            return res.status(404).json({ error: "Session not found" });
+        }
+
+        // Delete session completely
+        await clearSession(sessionId);
+
+        sessionLogger.info(`Deleted session ${sessionId}`);
+        res.json({
+            success: true,
+            message: "Session successfully deleted"
+        });
+    } catch (error) {
+        sessionLogger.error("Error deleting session:", error);
+        res.status(500).json({ error: "Failed to delete session" });
+    }
+};
+
+/**
  * Add a message to session history
  */
 export const addMessage = async (req: Request, res: Response) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { startSession, getSessionHistory, resetSession, getAllSessions } from '../services/api';
+import { startSession, getSessionHistory, resetSession, deleteSession, getAllSessions } from '../services/api';
 import type { ChatSession, Message } from '../types';
 
 /**
@@ -79,11 +79,22 @@ export const useSessions = () => {
         setCurrentChatId(chatId);
     };
 
-    const deleteChat = (chatId: string) => {
-        // TODO: Implement Redis session deletion endpoint
-        if (currentChatId === chatId) {
-            setCurrentChatId(null);
-            setMessages([]);
+    const deleteChat = async (chatId: string) => {
+        try {
+            await deleteSession(chatId);
+            console.log(`🗑️ Deleted Redis session ${chatId}`);
+
+            // Update local state
+            if (currentChatId === chatId) {
+                setCurrentChatId(null);
+                setMessages([]);
+            }
+
+            // Remove from local sessions list and reload all sessions
+            await loadAllSessions();
+        } catch (error) {
+            console.error('Failed to delete session:', error);
+            // Optionally show user notification about failed deletion
         }
     };
 

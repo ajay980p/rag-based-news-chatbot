@@ -91,6 +91,31 @@ export async function resetSession(sessionId: string): Promise<void> {
     }
 }
 
+export async function deleteSession(sessionId: string): Promise<void> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/session/${sessionId}/delete`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error("Session not found");
+            }
+            const errorData = await response.json().catch(() => ({ error: "Network error" }));
+            throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error("❌ API Error deleting session:", error);
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error("Failed to delete session");
+    }
+}
+
 export async function getAllSessions(): Promise<SessionMetadata[]> {
     try {
         const response = await fetch(`${API_BASE_URL}/session/list`, {

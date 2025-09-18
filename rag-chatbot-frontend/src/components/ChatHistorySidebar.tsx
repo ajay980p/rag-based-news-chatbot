@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, MessageSquare, Edit2, Trash2, Menu, X } from 'lucide-react';
+import React from 'react';
+import { Plus, MessageSquare, Trash2, Menu, X } from 'lucide-react';
 import type { ChatSession } from '../types';
 import '../styles/ChatHistorySidebar.scss';
 
@@ -22,14 +22,6 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
     isCollapsed = false,
     onToggleCollapse,
 }) => {
-    const [editingChatId, setEditingChatId] = useState<string | null>(null);
-    const [editTitle, setEditTitle] = useState('');
-
-    const handleRename = (chatId: string, currentTitle: string) => {
-        setEditingChatId(chatId);
-        setEditTitle(currentTitle);
-    };
-
     const formatTime = (date: Date | undefined) => {
         if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
             return 'Unknown';
@@ -107,41 +99,18 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                                                 <MessageSquare size={16} />
                                             </div>
                                             <div className="chat-sidebar__item-text">
-                                                {editingChatId === session.id ? (
-                                                    <input
-                                                        type="text"
-                                                        value={editTitle}
-                                                        onChange={(e) => setEditTitle(e.target.value)}
-                                                        className="chat-sidebar__item-input"
-                                                        autoFocus
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    />
-                                                ) : (
-                                                    <>
-                                                        <div className="chat-sidebar__item-title">
-                                                            {truncateText(session?.title)}
-                                                        </div>
-                                                        <div className="chat-sidebar__item-preview">
-                                                            {truncateText(session?.lastMessage, 40)}
-                                                        </div>
-                                                    </>
-                                                )}
+                                                <div className="chat-sidebar__item-title">
+                                                    {truncateText(session?.title)}
+                                                </div>
+                                                <div className="chat-sidebar__item-preview">
+                                                    {truncateText(session?.lastMessage, 40)}
+                                                </div>
                                             </div>
                                             <div className="chat-sidebar__item-meta">
                                                 <span className="chat-sidebar__item-time">
                                                     {formatTime(session?.timestamp)}
                                                 </span>
                                                 <div className="chat-sidebar__item-actions">
-                                                    <button
-                                                        className="chat-sidebar__action-btn"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleRename(session.id, session.title);
-                                                        }}
-                                                        title="Rename chat"
-                                                    >
-                                                        <Edit2 size={12} />
-                                                    </button>
                                                     <button
                                                         className="chat-sidebar__action-btn chat-sidebar__action-btn--delete"
                                                         onClick={(e) => {

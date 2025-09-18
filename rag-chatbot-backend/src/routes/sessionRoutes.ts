@@ -4,6 +4,7 @@ import {
     listSessions,
     getSessionHistory,
     resetSession,
+    deleteSession,
     addMessage,
     debugSessions
 } from "../controllers/sessionController";
@@ -136,6 +137,36 @@ router.get("/:id/history", getSessionHistory);
  *         description: Session not found
  */
 router.post("/:id/reset", resetSession);
+
+/**
+ * @openapi
+ * /session/{id}/delete:
+ *   delete:
+ *     summary: Delete a chat session
+ *     description: Completely removes the specified session and all its data
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Session ID
+ *     responses:
+ *       200:
+ *         description: Session successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Session not found
+ */
+router.delete("/:id/delete", deleteSession);
 
 /**
  * @openapi

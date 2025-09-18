@@ -7,6 +7,7 @@ import { setupSwagger } from "./swagger";
 import { initRedis } from "./services/redisService";
 import { errorHandler, requestLogger } from "./middleware";
 import { serverLogger } from "./utils/logger";
+import { config } from "./config/config";
 
 dotenv.config();
 
@@ -14,8 +15,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"], // frontend dev server
-    methods: ["GET", "POST"],
+    origin: config.corsOrigins,
+    methods: ["GET", "POST", "DELETE"],
 }));
 app.use(express.json());
 app.use(requestLogger);
@@ -30,7 +31,7 @@ app.use("/chat", chatRoutes);
 // Error handling middleware (should be last)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = config.port || 5000;
 
 async function startServer() {
     try {
