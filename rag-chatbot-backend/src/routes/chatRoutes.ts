@@ -4,6 +4,21 @@ import { getSession, setSession } from "../services/redisService";
 
 const router = Router();
 
+interface MessagePair {
+    messageId: string;
+    user_content: string;
+    user_timestamp: string;
+    bot_content: string;
+    bot_timestamp: string;
+    bot_sources: Array<{
+        score: number;
+        title: string;
+        content: string;
+        url?: string;
+    }>;
+}
+
+// Legacy interface for backward compatibility
 interface ChatMessage {
     role: "user" | "bot";
     content: string;
@@ -119,53 +134,60 @@ router.post("/ask", async (req, res) => {
 
         // If sessionId is provided, handle session-based chat
         if (sessionId) {
-            // Get existing session history
-            const currentMessages = await getSession(sessionId);
+            // Get existing session history (array of MessagePair objects)
+            const currentMessagePairs = await getSession(sessionId);
 
-            if (currentMessages === null) {
+            if (currentMessagePairs === null) {
                 console.log(`⚠️ Session not found: ${sessionId}`);
                 return res.status(404).json({ error: "Session not found or expired" });
             }
 
-            // Create user message
-            const userMessage: ChatMessage = {
-                role: "user",
-                content: query,
-                timestamp: new Date().toISOString()
-            };
+            console.log(`💬 Processing query for session ${sessionId}: ${query.substring(0, 50)}...`);
 
-            // Add user message to history
-            const updatedMessages = [...currentMessages, userMessage];
-            await setSession(sessionId, updatedMessages, 86400); // Refresh TTL
-
-            console.log(`💬 User message added to session ${sessionId}: ${query.substring(0, 50)}...`);
-
-            // Run RAG pipeline
+            // Run RAG pipeline to get bot response
             const { answer, sources } = await runRAGPipeline(query);
 
             if (!answer) {
                 throw new Error("RAG pipeline returned empty answer");
             }
 
-            // Create bot message
-            const botMessage: ChatMessage = {
-                role: "bot",
-                content: answer,
-                timestamp: new Date().toISOString(),
-                sources: sources
+            // Create new message pair
+            const newMessagePair: MessagePair = {
+                messageId: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                user_content: query,
+                user_timestamp: new Date().toISOString(),
+                bot_content: answer,
+                bot_timestamp: new Date().toISOString(),
+                bot_sources: sources || []
             };
 
-            // Add bot message and save final history
-            const finalMessages = [...updatedMessages, botMessage];
-            await setSession(sessionId, finalMessages, 86400); // Refresh TTL
+            // Add new message pair to history
+            const updatedMessagePairs = [...currentMessagePairs, newMessagePair];
+            await setSession(sessionId, updatedMessagePairs, 86400); // Refresh TTL
 
-            console.log(`🤖 Bot response added to session ${sessionId}: ${answer.substring(0, 50)}...`);
+            console.log(`✅ Message pair added to session ${sessionId}: ${newMessagePair.messageId}`);
 
-            // Return response with full history
+            // Convert to legacy format for backward compatibility with frontend
+            const legacyHistory: ChatMessage[] = [];
+            updatedMessagePairs.forEach(pair => {
+                legacyHistory.push({
+                    role: "user",
+                    content: pair.user_content,
+                    timestamp: pair.user_timestamp
+                });
+                legacyHistory.push({
+                    role: "bot",
+                    content: pair.bot_content,
+                    timestamp: pair.bot_timestamp,
+                    sources: pair.bot_sources
+                });
+            });
+
+            // Return response with legacy format for frontend compatibility
             res.json({
                 answer,
                 sources,
-                history: finalMessages
+                history: legacyHistory
             });
 
         } else {

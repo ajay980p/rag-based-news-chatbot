@@ -4,6 +4,20 @@ import { setSession, clearSession, getSession } from "../services/redisService";
 
 const router = Router();
 
+interface MessagePair {
+    messageId: string;
+    user_content: string;
+    user_timestamp: string;
+    bot_content: string;
+    bot_timestamp: string;
+    bot_sources: Array<{
+        score: number;
+        title: string;
+        content: string;
+        url?: string;
+    }>;
+}
+
 interface ChatMessage {
     role: "user" | "bot";
     content: string;
@@ -90,15 +104,31 @@ router.post("/start", async (req, res) => {
 router.get("/:id/history", async (req, res) => {
     try {
         const sessionId = req.params.id;
-        const messages = await getSession(sessionId);
+        const messagePairs = await getSession(sessionId);
 
-        if (messages === null) {
+        if (messagePairs === null) {
             console.log(`⚠️ Session not found or expired: ${sessionId}`);
             return res.status(404).json({ error: "Session expired or not found" });
         }
 
-        console.log(`📜 Retrieved history for session: ${sessionId} (${messages.length} messages)`);
-        res.json({ messages });
+        // Convert MessagePair format to legacy ChatMessage format for frontend compatibility
+        const legacyMessages: ChatMessage[] = [];
+        messagePairs.forEach((pair: MessagePair) => {
+            legacyMessages.push({
+                role: "user",
+                content: pair.user_content,
+                timestamp: pair.user_timestamp
+            });
+            legacyMessages.push({
+                role: "bot",
+                content: pair.bot_content,
+                timestamp: pair.bot_timestamp,
+                sources: pair.bot_sources
+            });
+        });
+
+        console.log(`📜 Retrieved history for session: ${sessionId} (${messagePairs.length} message pairs, ${legacyMessages.length} legacy messages)`);
+        res.json({ messages: legacyMessages });
     } catch (error) {
         console.error("❌ Error retrieving session history:", error);
         res.status(500).json({ error: "Failed to retrieve session history" });
