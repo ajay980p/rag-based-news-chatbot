@@ -22,17 +22,26 @@ export async function runRAGPipeline(query: string) {
         .map((a) => `Title: ${a.title}\n${a.content}`)
         .join("\n\n");
 
+
+    // const prompt = `Answer the following query using ONLY the context provided.
+
+    // Context: ${contextText}
+
+    // Query: ${query}`;
+
     // Step 2: Call Gemini
-
-    const prompt = `Answer the following query using ONLY the context provided.
-  
-    Context: ${contextText}
-
-    Query: ${query}`;
-
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: prompt,
+        contents: query,
+        config: {
+            systemInstruction: `
+                You are an AI News Chatbot. 
+                Your task is to answer user questions ONLY using the provided news context. 
+                - If the answer cannot be found in the context, politely ask the user to reframe their question related to the news. 
+                - Do not generate information that is not present in the context. 
+                - Always keep answers concise, factual, and news-focused.
+                `
+        },
     });
 
     const answer = response.text;
