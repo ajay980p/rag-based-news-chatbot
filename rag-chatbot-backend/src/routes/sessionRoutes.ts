@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { setSession, clearSession, getSession, setSessionMetadata, getAllSessions, debugRedisState } from "../services/redisService";
+import { setSession, clearSession, getSession, setSessionMetadata, getSessionMetadata, getAllSessions, debugRedisState } from "../services/redisService";
 
 const router = Router();
 
@@ -241,6 +241,17 @@ router.post("/:id/reset", async (req, res) => {
 
         // Reset session with empty array and refresh TTL
         await setSession(sessionId, [], 86400);
+
+        // Update session metadata to reflect reset state
+        const currentMetadata = await getSessionMetadata(sessionId);
+        if (currentMetadata) {
+            await setSessionMetadata(sessionId, {
+                title: currentMetadata.title || "New Chat", // Keep the title
+                lastMessage: "", // Clear last message
+                timestamp: new Date().toISOString(), // Update timestamp
+                messageCount: 0 // Reset message count
+            }, 86400);
+        }
 
         console.log(`🔄 Session reset: ${sessionId}`);
         res.json({

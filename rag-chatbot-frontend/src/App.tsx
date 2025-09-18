@@ -203,6 +203,8 @@ function App() {
       try {
         await resetSession(currentChatId);
         setMessages([]);
+        // Reload sessions to update metadata (message count, last message, etc.)
+        await loadAllSessions();
         console.log(`🔄 Reset Redis session ${currentChatId}`);
       } catch (error) {
         console.error('Failed to reset session:', error);
