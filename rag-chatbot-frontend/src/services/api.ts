@@ -36,6 +36,16 @@ export interface ChatRequest {
     sessionId?: string;
 }
 
+export interface SessionListResponse {
+    sessions: Array<{
+        id: string;
+        title: string;
+        lastMessage: string;
+        timestamp: string;
+        messageCount: number;
+    }>;
+}
+
 // Session Management APIs
 export async function startSession(): Promise<string> {
     try {
@@ -114,6 +124,37 @@ export async function resetSession(sessionId: string): Promise<void> {
             throw error;
         }
         throw new Error("Failed to reset session");
+    }
+}
+
+export async function getAllSessions(): Promise<Array<{
+    id: string;
+    title: string;
+    lastMessage: string;
+    timestamp: string;
+    messageCount: number;
+}>> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/session/list`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: "Network error" }));
+            throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data: SessionListResponse = await response.json();
+        return data.sessions;
+    } catch (error) {
+        console.error("❌ API Error getting all sessions:", error);
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error("Failed to get sessions");
     }
 }
 

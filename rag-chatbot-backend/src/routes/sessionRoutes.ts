@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { setSession, clearSession, getSession } from "../services/redisService";
+import { setSession, clearSession, getSession, setSessionMetadata, getAllSessions, debugRedisState } from "../services/redisService";
 
 const router = Router();
 
@@ -55,11 +55,76 @@ router.post("/start", async (req, res) => {
         // Create new session with empty message array and 24-hour TTL
         await setSession(sessionId, [], 86400); // 24 hours = 86400 seconds
 
+        // Create initial metadata
+        await setSessionMetadata(sessionId, {
+            title: "New Chat",
+            lastMessage: "",
+            timestamp: new Date().toISOString(),
+            messageCount: 0
+        }, 86400);
+
         console.log(`🆕 New session started: ${sessionId}`);
         res.json({ sessionId });
     } catch (error) {
         console.error("❌ Error starting session:", error);
         res.status(500).json({ error: "Failed to start session" });
+    }
+});
+
+/**
+ * @openapi
+ * /session/list:
+ *   get:
+ *     summary: Get all chat sessions
+ *     description: Retrieves a list of all chat sessions with metadata (title, last message, timestamp, message count)
+ *     responses:
+ *       200:
+ *         description: Returns list of all chat sessions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sessions:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: Session ID
+ *                       title:
+ *                         type: string
+ *                         description: Session title (derived from first message)
+ *                       lastMessage:
+ *                         type: string
+ *                         description: Preview of the last message
+ *                       timestamp:
+ *                         type: string
+ *                         description: Last activity timestamp
+ *                       messageCount:
+ *                         type: number
+ *                         description: Total number of message pairs
+ */
+router.get("/list", async (req, res) => {
+    try {
+        const sessions = await getAllSessions();
+        console.log(`📋 Listing ${sessions.length} sessions`);
+        res.json({ sessions });
+    } catch (error) {
+        console.error("❌ Error listing sessions:", error);
+        res.status(500).json({ error: "Failed to retrieve sessions" });
+    }
+});
+
+// Debug endpoint to inspect Redis state
+router.get("/debug", async (req, res) => {
+    try {
+        await debugRedisState();
+        res.json({ message: "Debug info logged to console" });
+    } catch (error) {
+        console.error("❌ Error debugging Redis state:", error);
+        res.status(500).json({ error: "Failed to debug Redis state" });
     }
 });
 

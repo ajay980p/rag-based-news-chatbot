@@ -5,13 +5,14 @@ import ChatInput from './components/ChatInput';
 import WelcomeScreen from './components/WelcomeScreen';
 import ChatHistorySidebar from './components/ChatHistorySidebar';
 import type { ChatSession } from './components/ChatHistorySidebar';
-import { askChat, startSession, getSessionHistory, resetSession } from './services/api';
+import { askChat, startSession, getSessionHistory, resetSession, getAllSessions } from './services/api';
 import './styles/App.scss';
 import type { Message } from './types/Message';
 
 function App() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -30,32 +31,45 @@ function App() {
     }
   }, [isDarkMode]);
 
-  const generateChatTitle = (firstMessage: string): string => {
-    const words = firstMessage.split(' ').slice(0, 6);
-    return words.join(' ') + (firstMessage.split(' ').length > 6 ? '...' : '');
-  };
+  // Load all sessions on component mount
+  useEffect(() => {
+    loadAllSessions();
+  }, []);
 
-  const handleNewChat = async () => {
-    try {
-      setIsTyping(true);
-      const newSessionId = await startSession();
-      console.log(`🆕 Created new Redis session with ID: ${newSessionId}`);
-      setCurrentChatId(newSessionId);
+  // Load session messages when currentChatId changes
+  useEffect(() => {
+    if (currentChatId) {
+      loadSessionMessages(currentChatId);
+    } else {
       setMessages([]);
-      setIsTyping(false);
+    }
+  }, [currentChatId]);
+
+  const loadAllSessions = async () => {
+    try {
+      const sessions = await getAllSessions();
+      // Convert the API response to our ChatSession format
+      const convertedSessions: ChatSession[] = sessions.map(session => ({
+        id: session.id,
+        title: session.title,
+        lastMessage: session.lastMessage,
+        timestamp: new Date(session.timestamp),
+        messageCount: session.messageCount
+      }));
+      setChatSessions(convertedSessions);
+      console.log(`📋 Loaded ${convertedSessions.length} sessions from Redis`);
     } catch (error) {
-      console.error('Failed to create new session:', error);
-      setIsTyping(false);
+      console.error('Failed to load sessions:', error);
+      setChatSessions([]);
     }
   };
 
-  const handleSelectChat = async (chatId: string) => {
-    setCurrentChatId(chatId);
-    // Load messages for the selected chat
+  const loadSessionMessages = async (sessionId: string) => {
     try {
-      const chatMessages = await getSessionHistory(chatId);
+      const chatMessages = await getSessionHistory(sessionId);
+      // Convert Redis ChatMessage format to our Message format
       const convertedMessages: Message[] = chatMessages.map((msg, index) => ({
-        id: `${chatId}_${index}`,
+        id: `${sessionId}_${index}`,
         text: msg.content,
         isUser: msg.role === 'user',
         timestamp: new Date(msg.timestamp),
@@ -65,6 +79,26 @@ function App() {
       console.error('Failed to load session messages:', error);
       setMessages([]);
     }
+  };
+
+  const handleNewChat = async () => {
+    try {
+      setIsTyping(true);
+      const newSessionId = await startSession();
+      console.log(`🆕 Created new Redis session with ID: ${newSessionId}`);
+      setCurrentChatId(newSessionId);
+      setMessages([]);
+      // Reload sessions to include the new one
+      await loadAllSessions();
+      setIsTyping(false);
+    } catch (error) {
+      console.error('Failed to create new session:', error);
+      setIsTyping(false);
+    }
+  };
+
+  const handleSelectChat = async (chatId: string) => {
+    setCurrentChatId(chatId);
   };
 
   // For now, we'll use dummy data for chat sessions list
@@ -128,6 +162,9 @@ function App() {
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
 
+      // Reload sessions to update metadata (title, last message, etc.)
+      await loadAllSessions();
+
       console.log(`✅ Messages updated successfully in Redis session`);
 
     } catch (error) {
@@ -173,23 +210,14 @@ function App() {
     }
   };
 
-  // For now, use dummy data for sidebar (until we implement session listing)
-  const dummyChatSessions: ChatSession[] = currentChatId ? [{
-    id: currentChatId,
-    title: messages.length > 0 ? generateChatTitle(messages[0].text) : 'New Chat',
-    lastMessage: messages.length > 0 ? messages[messages.length - 1].text.substring(0, 100) : '',
-    timestamp: new Date(),
-    messageCount: messages.length,
-  }] : [];
-
   console.log(`🎬 Render - Current Chat ID: ${currentChatId}`);
   console.log(`🎬 Render - Current Messages: ${messages.length} messages`);
-  console.log(`🎬 Render - Messages:`, messages);
+  console.log(`🎬 Render - Sessions: ${chatSessions.length} sessions loaded`);
 
   return (
     <div className="app">
       <ChatHistorySidebar
-        chatSessions={dummyChatSessions}
+        chatSessions={chatSessions}
         currentChatId={currentChatId}
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}

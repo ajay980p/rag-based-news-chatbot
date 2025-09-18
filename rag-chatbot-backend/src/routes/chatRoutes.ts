@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { runRAGPipeline } from "../services/ragService";
-import { getSession, setSession } from "../services/redisService";
+import { getSession, setSession, setSessionMetadata, getSessionMetadata } from "../services/redisService";
 
 const router = Router();
 
@@ -29,6 +29,12 @@ interface ChatMessage {
         content: string;
         url?: string;
     }>;
+}
+
+// Helper function to generate chat title from first message
+function generateChatTitle(firstMessage: string): string {
+    const words = firstMessage.split(' ').slice(0, 6);
+    return words.join(' ') + (firstMessage.split(' ').length > 6 ? '...' : '');
 }
 
 /**
@@ -164,6 +170,18 @@ router.post("/ask", async (req, res) => {
             // Add new message pair to history
             const updatedMessagePairs = [...currentMessagePairs, newMessagePair];
             await setSession(sessionId, updatedMessagePairs, 86400); // Refresh TTL
+
+            // Update session metadata
+            const title = updatedMessagePairs.length === 1
+                ? generateChatTitle(query)
+                : (await getSessionMetadata(sessionId))?.title || "Chat Session";
+
+            await setSessionMetadata(sessionId, {
+                title,
+                lastMessage: answer.substring(0, 100) + (answer.length > 100 ? "..." : ""),
+                timestamp: new Date().toISOString(),
+                messageCount: updatedMessagePairs.length
+            }, 86400);
 
             console.log(`✅ Message pair added to session ${sessionId}: ${newMessagePair.messageId}`);
 
