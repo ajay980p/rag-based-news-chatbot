@@ -23,6 +23,7 @@ export const useApp = () => {
         deleteChat,
         resetChat,
         addMessage,
+        setMessages,
         refreshSessions
     } = useSessions();
 
@@ -31,6 +32,7 @@ export const useApp = () => {
         currentChatId,
         createNewSession,
         addMessage,
+        setMessages,
         refreshSessions
     );
 

@@ -10,6 +10,7 @@ export const useChat = (
     currentChatId: string | null,
     createNewSession: () => Promise<string | null>,
     addMessage: (message: Message) => void,
+    setMessages: (messages: Message[]) => void,
     refreshSessions: () => Promise<void>
 ) => {
     const [isTyping, setIsTyping] = useState(false);
@@ -17,17 +18,16 @@ export const useChat = (
     const sendMessage = async (text: string) => {
         let sessionId = currentChatId;
 
-        // Create new session if none exists
+        // Create new session if none exists FIRST
         if (!sessionId) {
-            setIsTyping(true);
             sessionId = await createNewSession();
-            setIsTyping(false);
 
             if (!sessionId) {
                 return;
             }
         }
 
+        // Now create user message with the correct session ID
         const userMessage: Message = {
             id: `${sessionId}_${Date.now()}`,
             text,
@@ -35,11 +35,9 @@ export const useChat = (
             timestamp: new Date(),
         };
 
-        // Optimistically update UI
+        // Add user message immediately to show chat screen
         addMessage(userMessage);
-        setIsTyping(true);
-
-        console.log(`💬 Sending message to Redis session ${sessionId}: ${text}`);
+        setIsTyping(true); console.log(`💬 Sending message to Redis session ${sessionId}: ${text}`);
 
         try {
             // Send message to backend with session ID
