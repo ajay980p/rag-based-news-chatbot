@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { chatLogger } from '../utils/logger';
 import { runRAGPipeline } from '../services/ragService';
+import { isNewsRelatedQuery, generateCasualResponse } from '../services/queryRelevanceService';
 import {
     getSession,
     setSession,
@@ -35,6 +36,65 @@ export const askChat = async (req: Request, res: Response) => {
             }
 
             chatLogger.info(`Processing query for session ${sessionId}: ${query.substring(0, 50)}...`);
+
+            // Check if query is news-related before running expensive RAG pipeline
+            if (!isNewsRelatedQuery(query)) {
+                chatLogger.info(`Query identified as casual/irrelevant, providing simple response`);
+
+                const casualResponse = generateCasualResponse(query);
+
+                // Create new message pair with casual response
+                const newMessagePair: MessagePair = {
+                    messageId: `${sessionId}_${Date.now()}`,
+                    user_content: query,
+                    user_timestamp: new Date().toISOString(),
+                    bot_content: casualResponse,
+                    bot_timestamp: new Date().toISOString(),
+                    bot_sources: [] // No sources for casual responses
+                };
+
+                // Add new message pair to session
+                const updatedMessagePairs = [...currentMessagePairs, newMessagePair];
+                await setSession(sessionId, updatedMessagePairs, 86400);
+
+                // Update session metadata
+                const chatTitle = currentMessagePairs.length === 0 ? generateChatTitle(query) :
+                    (await getSessionMetadata(sessionId))?.title || "Chat";
+
+                await setSessionMetadata(sessionId, {
+                    title: chatTitle,
+                    lastMessage: query.substring(0, 50) + (query.length > 50 ? '...' : ''),
+                    timestamp: new Date().toISOString(),
+                    messageCount: updatedMessagePairs.length
+                }, 86400);
+
+                // Convert to legacy format for frontend compatibility
+                const legacyHistory: ChatMessage[] = [];
+                updatedMessagePairs.forEach((pair: MessagePair) => {
+                    legacyHistory.push({
+                        role: "user",
+                        content: pair.user_content,
+                        timestamp: pair.user_timestamp
+                    });
+                    legacyHistory.push({
+                        role: "bot",
+                        content: pair.bot_content,
+                        timestamp: pair.bot_timestamp,
+                        sources: pair.bot_sources
+                    });
+                });
+
+                return res.json({
+                    answer: casualResponse,
+                    sources: [],
+                    history: legacyHistory,
+                    context: null,
+                    metadata: {
+                        totalTime: Date.now() - Date.now(), // Minimal time for casual responses
+                        queryType: 'casual'
+                    }
+                });
+            }
 
             // Run RAG pipeline to get bot response
             const ragResponse = await runRAGPipeline(query);
@@ -98,6 +158,24 @@ export const askChat = async (req: Request, res: Response) => {
         } else {
             // Handle query without session (backward compatibility)
             chatLogger.info(`Processing standalone query: ${query.substring(0, 50)}...`);
+
+            // Check if query is news-related before running expensive RAG pipeline
+            if (!isNewsRelatedQuery(query)) {
+                chatLogger.info(`Standalone query identified as casual/irrelevant, providing simple response`);
+
+                const casualResponse = generateCasualResponse(query);
+
+                return res.json({
+                    answer: casualResponse,
+                    sources: [],
+                    context: null,
+                    metadata: {
+                        totalTime: Date.now() - Date.now(),
+                        queryType: 'casual'
+                    }
+                });
+            }
+
             const ragResponse = await runRAGPipeline(query);
             const { answer, sources, context, metadata } = ragResponse;
 

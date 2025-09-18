@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { startSession, getSessionHistory, resetSession, deleteSession, getAllSessions } from '../services/api';
+import { formatBotResponse } from '../utils/messageFormatters';
 import type { ChatSession, Message } from '../types';
 
 /**
@@ -47,13 +48,22 @@ export const useSessions = () => {
         try {
             const chatMessages = await getSessionHistory(sessionId);
             // Convert Redis ChatMessage format to our Message format with safety checks
-            const convertedMessages: Message[] = (chatMessages || []).map((msg, index) => ({
-                id: `${sessionId}_${index}`,
-                text: msg?.content || '',
-                isUser: msg?.role === 'user',
-                timestamp: msg?.timestamp ? new Date(msg.timestamp) : new Date(),
-                isStreaming: false, // Historical messages should not stream
-            }));
+            const convertedMessages: Message[] = (chatMessages || []).map((msg, index) => {
+                // For bot messages with sources, re-format the text to include sources
+                let messageText = msg?.content || '';
+                if (msg?.role === 'bot' && msg?.sources && msg?.sources.length > 0) {
+                    messageText = formatBotResponse(msg.content, msg.sources);
+                }
+
+                return {
+                    id: `${sessionId}_${index}`,
+                    text: messageText,
+                    isUser: msg?.role === 'user',
+                    timestamp: msg?.timestamp ? new Date(msg.timestamp) : new Date(),
+                    isStreaming: false, // Historical messages should not stream
+                    sources: msg?.sources || undefined, // Preserve sources from backend
+                };
+            });
             setMessages(convertedMessages);
         } catch (error) {
             console.error('Failed to load session messages:', error);

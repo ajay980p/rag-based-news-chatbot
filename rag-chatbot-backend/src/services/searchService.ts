@@ -33,7 +33,7 @@ export async function searchArticles(query: string, topK = 3): Promise<{
         const formattedResults: Source[] = results.matches.map((match: any) => ({
             score: match.score,
             title: match.metadata?.title || 'Untitled',
-            content: match.metadata?.content || '',
+            content: match.metadata?.content || match.metadata?.text || '',
             url: match.metadata?.url
         }));
 

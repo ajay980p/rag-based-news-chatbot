@@ -54,6 +54,7 @@ export const useChat = (
                 isUser: false,
                 timestamp: new Date(),
                 isStreaming: true, // Enable streaming for new bot responses
+                sources: response.sources, // Preserve original sources array
             };
 
             addMessage(botMessage);
