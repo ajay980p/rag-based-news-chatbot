@@ -45,7 +45,7 @@ function App() {
           onToggleTheme={handleToggleTheme}
         />
 
-        {messages.length === 0 ? (
+        {messages.length === 0 && !isTyping ? (
           <WelcomeScreen onSendMessage={handleSendMessage} />
         ) : (
           <ChatScreen messages={messages} isTyping={isTyping} />

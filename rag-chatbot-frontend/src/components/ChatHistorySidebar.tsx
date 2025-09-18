@@ -57,6 +57,13 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
     return (
         <div className={`chat-sidebar ${isCollapsed ? 'chat-sidebar--collapsed' : ''}`}>
             <div className="chat-sidebar__header">
+                {!isCollapsed && (
+                    <button className="chat-sidebar__new-chat" onClick={onNewChat}>
+                        <Plus size={18} />
+                        <span>New Chat</span>
+                    </button>
+                )}
+
                 <button
                     className="chat-sidebar__toggle"
                     onClick={onToggleCollapse}
@@ -64,13 +71,6 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                 >
                     {isCollapsed ? <Menu size={20} /> : <X size={20} />}
                 </button>
-
-                {!isCollapsed && (
-                    <button className="chat-sidebar__new-chat" onClick={onNewChat}>
-                        <Plus size={16} />
-                        <span>New Chat</span>
-                    </button>
-                )}
             </div>
 
             {!isCollapsed && (
