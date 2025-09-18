@@ -17,6 +17,13 @@
         }
     }
 
+    &__scroll-anchor {
+        height: 1px;
+        width: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
     // Custom scrollbar
     &::-webkit-scrollbar {
         width: 6px;

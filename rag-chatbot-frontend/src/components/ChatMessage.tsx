@@ -6,9 +6,10 @@ import type { Message } from '../types';
 
 interface ChatMessageProps {
     message: Message;
+    onScrollToBottom?: () => void;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ message, onScrollToBottom }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [streamingComplete, setStreamingComplete] = useState(true);
@@ -38,16 +39,35 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                         return newText;
                     });
                     wordIndex++;
+                    // Scroll to bottom as text is being typed
+                    if (onScrollToBottom) {
+                        onScrollToBottom();
+                    }
                 } else {
                     setIsTyping(false);
                     setStreamingComplete(true);
                     clearInterval(timer);
+                    // Final scroll to bottom when streaming is complete
+                    setTimeout(() => {
+                        if (onScrollToBottom) {
+                            onScrollToBottom();
+                        }
+                    }, 50); // Small delay to ensure DOM update
                 }
             }, 100); // Adjust speed here (100ms per word)
 
             return () => clearInterval(timer);
         }
-    }, [message.text, message.isUser, message.isStreaming]);
+    }, [message.text, message.isUser, message.isStreaming, onScrollToBottom]);
+
+    // Additional scroll when streaming completes to ensure we're at the bottom
+    useEffect(() => {
+        if (streamingComplete && !message.isUser && onScrollToBottom) {
+            setTimeout(() => {
+                onScrollToBottom();
+            }, 100); // Slight delay to ensure ReactMarkdown has rendered
+        }
+    }, [streamingComplete, message.isUser, onScrollToBottom]);
 
     const formatTime = (date: Date) => {
         return date.toLocaleTimeString('en-US', {
