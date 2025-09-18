@@ -51,6 +51,7 @@ export const useChat = (
                 text: formatBotResponse(response.answer, response.sources),
                 isUser: false,
                 timestamp: new Date(),
+                isStreaming: true, // Enable streaming for new bot responses
             };
 
             addMessage(botMessage);
@@ -69,6 +70,7 @@ export const useChat = (
                 text: `❌ **Error**: ${error instanceof Error ? error.message : 'Unable to connect to the news service. Please check if the backend server is running.'}\n\nPlease try again or contact support if the issue persists.`,
                 isUser: false,
                 timestamp: new Date(),
+                isStreaming: false, // Don't stream error messages
             };
 
             addMessage(errorMessage);

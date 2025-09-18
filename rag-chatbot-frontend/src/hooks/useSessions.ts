@@ -52,6 +52,7 @@ export const useSessions = () => {
                 text: msg?.content || '',
                 isUser: msg?.role === 'user',
                 timestamp: msg?.timestamp ? new Date(msg.timestamp) : new Date(),
+                isStreaming: false, // Historical messages should not stream
             }));
             setMessages(convertedMessages);
         } catch (error) {

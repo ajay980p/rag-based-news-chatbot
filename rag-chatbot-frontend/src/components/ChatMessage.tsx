@@ -10,40 +10,44 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     const [displayedText, setDisplayedText] = useState('');
-    const [isTyping, setIsTyping] = useState(!message.isUser);
-    const [streamingComplete, setStreamingComplete] = useState(message.isUser);
+    const [isTyping, setIsTyping] = useState(false);
+    const [streamingComplete, setStreamingComplete] = useState(true);
 
     useEffect(() => {
-        if (message.isUser) {
+        // For user messages or non-streaming bot messages, display immediately
+        if (message.isUser || !message.isStreaming) {
             setDisplayedText(message.text);
             setIsTyping(false);
             setStreamingComplete(true);
             return;
         }
 
-        // Word-by-word streaming effect for bot messages (more readable)
-        const words = message.text.split(' ');
-        let wordIndex = 0;
-        setDisplayedText('');
-        setIsTyping(true);
-        setStreamingComplete(false);
+        // Only stream for new bot messages with isStreaming flag
+        if (message.isStreaming) {
+            // Word-by-word streaming effect for bot messages (more readable)
+            const words = message.text.split(' ');
+            let wordIndex = 0;
+            setDisplayedText('');
+            setIsTyping(true);
+            setStreamingComplete(false);
 
-        const timer = setInterval(() => {
-            if (wordIndex < words.length) {
-                setDisplayedText(prev => {
-                    const newText = prev + (wordIndex === 0 ? '' : ' ') + words[wordIndex];
-                    return newText;
-                });
-                wordIndex++;
-            } else {
-                setIsTyping(false);
-                setStreamingComplete(true);
-                clearInterval(timer);
-            }
-        }, 100); // Adjust speed here (100ms per word)
+            const timer = setInterval(() => {
+                if (wordIndex < words.length) {
+                    setDisplayedText(prev => {
+                        const newText = prev + (wordIndex === 0 ? '' : ' ') + words[wordIndex];
+                        return newText;
+                    });
+                    wordIndex++;
+                } else {
+                    setIsTyping(false);
+                    setStreamingComplete(true);
+                    clearInterval(timer);
+                }
+            }, 100); // Adjust speed here (100ms per word)
 
-        return () => clearInterval(timer);
-    }, [message.text, message.isUser]);
+            return () => clearInterval(timer);
+        }
+    }, [message.text, message.isUser, message.isStreaming]);
 
     const formatTime = (date: Date) => {
         return date.toLocaleTimeString('en-US', {
