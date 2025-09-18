@@ -5,15 +5,20 @@ import sessionRoutes from "./routes/sessionRoutes";
 import chatRoutes from "./routes/chatRoutes";
 import { setupSwagger } from "./swagger";
 import { initRedis } from "./services/redisService";
+import { errorHandler, requestLogger } from "./middleware";
+import { serverLogger } from "./utils/logger";
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174"], // frontend dev server
     methods: ["GET", "POST"],
 }));
 app.use(express.json());
+app.use(requestLogger);
 
 // Swagger
 setupSwagger(app);
@@ -22,16 +27,19 @@ setupSwagger(app);
 app.use("/session", sessionRoutes);
 app.use("/chat", chatRoutes);
 
+// Error handling middleware (should be last)
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
     try {
         await initRedis(); // ✅ connect once before server starts
         app.listen(PORT, () => {
-            console.log(`🚀 Server running on port ${PORT}`);
+            serverLogger.info(`Server running on port ${PORT}`);
         });
     } catch (err) {
-        console.error("❌ Failed to start server:", err);
+        serverLogger.error("Failed to start server:", err);
         process.exit(1); // Exit if Redis fails
     }
 }

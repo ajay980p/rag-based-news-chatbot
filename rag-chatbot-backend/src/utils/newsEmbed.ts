@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { embedText } from "../services/embedService"; // <-- your custom embedText file
+import { serverLogger } from "./logger";
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ async function main() {
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
     const articles: Article[] = data.articles; // Access the 'articles' array from the JSON
-    console.log(`📑 Found ${articles.length} articles`);
+    serverLogger.info(`Found ${articles.length} articles`);
 
     const vectors: any[] = [];
 
@@ -54,4 +55,6 @@ async function main() {
     );
 }
 
-main().catch(console.error);
+main().catch((error) => {
+    serverLogger.error("Error in main function:", error);
+});

@@ -1,41 +1,7 @@
 import { Router } from "express";
-import { runRAGPipeline } from "../services/ragService";
-import { getSession, setSession, setSessionMetadata, getSessionMetadata } from "../services/redisService";
+import { askChat } from "../controllers/chatController";
 
 const router = Router();
-
-interface MessagePair {
-    messageId: string;
-    user_content: string;
-    user_timestamp: string;
-    bot_content: string;
-    bot_timestamp: string;
-    bot_sources: Array<{
-        score: number;
-        title: string;
-        content: string;
-        url?: string;
-    }>;
-}
-
-// Legacy interface for backward compatibility
-interface ChatMessage {
-    role: "user" | "bot";
-    content: string;
-    timestamp: string;
-    sources?: Array<{
-        score: number;
-        title: string;
-        content: string;
-        url?: string;
-    }>;
-}
-
-// Helper function to generate chat title from first message
-function generateChatTitle(firstMessage: string): string {
-    const words = firstMessage.split(' ').slice(0, 6);
-    return words.join(' ') + (firstMessage.split(' ').length > 6 ? '...' : '');
-}
 
 /**
  * @openapi
@@ -130,96 +96,6 @@ function generateChatTitle(firstMessage: string): string {
  *                   example: "Failed to process query"
  */
 
-router.post("/ask", async (req, res) => {
-    try {
-        const { query, sessionId } = req.body;
-
-        if (!query) {
-            return res.status(400).json({ error: "Query is required" });
-        }
-
-        // If sessionId is provided, handle session-based chat
-        if (sessionId) {
-            // Get existing session history (array of MessagePair objects)
-            const currentMessagePairs = await getSession(sessionId);
-
-            if (currentMessagePairs === null) {
-                console.log(`⚠️ Session not found: ${sessionId}`);
-                return res.status(404).json({ error: "Session not found or expired" });
-            }
-
-            console.log(`💬 Processing query for session ${sessionId}: ${query.substring(0, 50)}...`);
-
-            // Run RAG pipeline to get bot response
-            const { answer, sources } = await runRAGPipeline(query);
-
-            if (!answer) {
-                throw new Error("RAG pipeline returned empty answer");
-            }
-
-            // Create new message pair
-            const newMessagePair: MessagePair = {
-                messageId: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                user_content: query,
-                user_timestamp: new Date().toISOString(),
-                bot_content: answer,
-                bot_timestamp: new Date().toISOString(),
-                bot_sources: sources || []
-            };
-
-            // Add new message pair to history
-            const updatedMessagePairs = [...currentMessagePairs, newMessagePair];
-            await setSession(sessionId, updatedMessagePairs, 86400); // Refresh TTL
-
-            // Update session metadata
-            const title = updatedMessagePairs.length === 1
-                ? generateChatTitle(query)
-                : (await getSessionMetadata(sessionId))?.title || "Chat Session";
-
-            await setSessionMetadata(sessionId, {
-                title,
-                lastMessage: answer.substring(0, 100) + (answer.length > 100 ? "..." : ""),
-                timestamp: new Date().toISOString(),
-                messageCount: updatedMessagePairs.length
-            }, 86400);
-
-            console.log(`✅ Message pair added to session ${sessionId}: ${newMessagePair.messageId}`);
-
-            // Convert to legacy format for backward compatibility with frontend
-            const legacyHistory: ChatMessage[] = [];
-            updatedMessagePairs.forEach(pair => {
-                legacyHistory.push({
-                    role: "user",
-                    content: pair.user_content,
-                    timestamp: pair.user_timestamp
-                });
-                legacyHistory.push({
-                    role: "bot",
-                    content: pair.bot_content,
-                    timestamp: pair.bot_timestamp,
-                    sources: pair.bot_sources
-                });
-            });
-
-            // Return response with legacy format for frontend compatibility
-            res.json({
-                answer,
-                sources,
-                history: legacyHistory
-            });
-
-        } else {
-            // Session-less mode (backward compatibility)
-            console.log(`🔄 Processing query without session: ${query.substring(0, 50)}...`);
-
-            const { answer, sources } = await runRAGPipeline(query);
-            res.json({ answer, sources });
-        }
-
-    } catch (err) {
-        console.error("❌ Chat route error:", err);
-        res.status(500).json({ error: "Failed to process query" });
-    }
-});
+router.post("/ask", askChat);
 
 export default router;
