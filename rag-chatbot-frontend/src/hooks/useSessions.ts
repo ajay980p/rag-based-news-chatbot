@@ -60,7 +60,6 @@ export const useSessions = () => {
                     text: messageText,
                     isUser: msg?.role === 'user',
                     timestamp: msg?.timestamp ? new Date(msg.timestamp) : new Date(),
-                    isStreaming: false, // Historical messages should not stream
                     sources: msg?.sources || undefined, // Preserve sources from backend
                 };
             });
