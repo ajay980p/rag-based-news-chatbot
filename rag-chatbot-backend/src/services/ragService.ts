@@ -31,7 +31,7 @@ export async function runRAGPipeline(query: string, topK: number = 3): Promise<R
         if (!contextArticles.length) {
             chatLogger.warn('No relevant articles found for query');
             return {
-                answer: "⚠️ No relevant articles found for your query. Please try rephrasing your question or ask about recent news topics.",
+                answer: `I couldn't find any news articles that match your question. You might want to try asking about recent technology developments, startup news, government policies, or industry trends instead. Feel free to rephrase your question and I'll do my best to help!`,
                 sources: [],
                 metadata: {
                     embedTime,
@@ -58,38 +58,58 @@ export async function runRAGPipeline(query: string, topK: number = 3): Promise<R
         chatLogger.info('Step 5: Calling Gemini API with context and query...');
         const generationStartTime = Date.now();
 
-        const prompt = `Context:
-        ${contextBlock}
+        const prompt = `Based on these news articles, please provide a natural, conversational summary:
 
-        User Query: ${query}
+${contextBlock}
 
-        Please answer the user's query using ONLY the information provided in the context above. If the answer cannot be found in the context, politely say no and suggest they ask about topics covered in the provided news articles.`;
+User Question: ${query}
+
+Please write a response as if you're explaining the news to a friend. Focus on what's actually happening and why it matters, rather than just listing article titles. Make it sound human and engaging.`;
 
         const response = await ai.models.generateContent({
             model: "gemini-2.0-flash-exp",
             contents: prompt,
             config: {
                 systemInstruction: `
-                You are an AI News Assistant. 
-                Your role is to answer questions in a clear, natural, and conversational way,
-                but always base your answers ONLY on the provided news context.
-
-                Guidelines:
-                - Use a friendly and professional tone, as if explaining news to a curious reader.
-                - If the answer cannot be found in the context, politely explain that and suggest the user ask about topics covered in the news.
-                - Do not invent or speculate beyond the provided context.
-                - When relevant, weave in short references to specific articles or events from the context.
-                - Keep answers informative yet easy to read (like a short news summary).
+                You are a knowledgeable news assistant that provides natural, conversational summaries.
+                
+                🎯 WRITING STYLE:
+                - Start with friendly, natural openings like "Hey, I found some great [topic] news!" or "So here's what's happening with [topic]..."
+                - Write in a natural, conversational tone as if explaining to a friend
+                - Convert article titles into flowing, readable sentences
+                - Explain WHY things matter, not just WHAT happened
+                - Use everyday language, avoid jargon
+                - Make connections between different news items when relevant
+                
+                ❌ DON'T:
+                - Copy article titles verbatim
+                - Use awkward phrases like "Here's what I found" or "Based on the articles"
+                - Sound robotic or mechanical
+                - Start with "According to" or formal language
+                
+                ✅ DO:
+                - Start with "Hey, I found some great [topic] news!" or similar friendly openings
+                - Explain news in simple, human terms
+                - Add context about why developments matter
+                - Write as if you're having a conversation
+                - Use natural transitions between topics
+                - Keep responses informative but easy to digest
+                
+                RESPONSE FORMAT:
+                Start with a friendly intro like "Hey, I found some great AI news!" then explain the news naturally in 2-3 paragraphs, ending with an enthusiastic closing.
                 `,
-                maxOutputTokens: 1000,
-                temperature: 0.4
+                maxOutputTokens: 800,
+                temperature: 0.5
             },
         });
 
         const generationTime = Date.now() - generationStartTime;
         const totalTime = Date.now() - startTime;
 
-        const answer = response.text || "I couldn't generate a response. Please try again.";
+        const rawAnswer = response.text || `I found some relevant articles but had trouble generating a proper response. You can check the sources below for the information, or try asking your question in a different way.`;
+
+        // Post-process the answer to ensure consistent formatting
+        const answer = enhanceResponseFormatting(rawAnswer);
 
         // Step 7: Return result to user
         chatLogger.info(`RAG pipeline completed successfully in ${totalTime}ms`, {
@@ -118,7 +138,7 @@ export async function runRAGPipeline(query: string, topK: number = 3): Promise<R
         chatLogger.error('RAG pipeline failed:', error);
 
         return {
-            answer: "I apologize, but I encountered an error while processing your request. Please try again.",
+            answer: `Sorry, I ran into a technical issue while processing your request. Could you try asking your question again? If the problem persists, you might want to rephrase your question or ask about a different topic.`,
             sources: [],
             metadata: {
                 totalTime,
@@ -151,4 +171,24 @@ ${content}`;
     });
 
     return contextEntries.join('\n\n');
+}
+
+/**
+ * Enhance response formatting to ensure natural, conversational tone
+ */
+function enhanceResponseFormatting(text: string): string {
+    // Remove any duplicate intro patterns that might have been added
+    text = text.replace(/^Here's what I found:\s*/i, '');
+
+    // If the response doesn't start naturally, add a simple intro
+    if (!text.match(/^(hey|hi|so|based|according|from|looking|there|it|ai|the)/i)) {
+        text = `Hey, I found some great news! ${text}`;
+    }
+
+    // Ensure friendly closing if none exists
+    if (!text.match(/(hope|help|questions|more|else|further|exciting|pretty)/i)) {
+        text += ` Let me know if you'd like to know more about any of these topics!`;
+    }
+
+    return text;
 }
