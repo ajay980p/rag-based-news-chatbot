@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ChatHeader from './components/ChatHeader';
 import ChatScreen from './components/ChatScreen';
 import ChatInput from './components/ChatInput';
 import WelcomeScreen from './components/WelcomeScreen';
+import { askChat } from './services/api';
 import './styles/App.scss';
 import type { Message } from './types/Message';
 
@@ -31,7 +32,7 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = async (text: string) => {
     const userMessage: Message = {
       id: Date.now().toString(),
       text,
@@ -42,80 +43,56 @@ function App() {
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
 
-    // Simulate bot response with realistic delay
-    setTimeout(() => {
+    try {
+      // Call the real backend API
+      const response = await askChat(text);
+
+      // Create bot response with the actual answer from the API
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: generateBotResponse(text),
+        text: formatBotResponse(response.answer, response.sources),
         isUser: false,
         timestamp: new Date(),
       };
+
       setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('❌ Failed to get response from backend:', error);
+
+      // Show error message to user
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: `❌ **Error**: ${error instanceof Error ? error.message : 'Unable to connect to the news service. Please check if the backend server is running on http://localhost:5000'}\n\nPlease try again or contact support if the issue persists.`,
+        isUser: false,
+        timestamp: new Date(),
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1500 + Math.random() * 1000); // Variable delay for realism
+    }
+  };
+
+  // Format the bot response with sources
+  const formatBotResponse = (answer: string, sources: Array<{ score: number; title: string; content: string; url?: string }>): string => {
+    let formattedResponse = answer;
+
+    if (sources && sources.length > 0) {
+      formattedResponse += '\n\n📰 **Sources:**\n';
+      sources.slice(0, 3).forEach((source, index) => {
+        formattedResponse += `\n${index + 1}. **${source.title}** (Relevance: ${(source.score * 100).toFixed(1)}%)\n`;
+        if (source.url) {
+          formattedResponse += `   🔗 [Read more](${source.url})\n`;
+        }
+      });
+    }
+
+    return formattedResponse;
   };
 
   const handleResetChat = () => {
     setMessages([]);
     setIsTyping(false);
-  };
-
-  const generateBotResponse = (userMessage: string): string => {
-    // News-focused response generation
-    const responseTypes = {
-      breaking: [
-        'Here are the latest breaking news updates I found:',
-        'I\'ve gathered the most recent news stories for you:',
-        'Based on current news sources, here\'s what\'s happening:'
-      ],
-      headlines: [
-        'Here are today\'s top headlines from major news outlets:',
-        'I\'ve compiled the most important stories of the day:',
-        'These are the trending news stories right now:'
-      ],
-      topic: [
-        'I\'ve searched through recent news articles and found these relevant stories:',
-        'Here\'s what\'s been reported recently on this topic:',
-        'Based on the latest news coverage, here are the key developments:'
-      ],
-      greeting: [
-        'Hello! I\'m NewsBot, your AI news assistant. What news topics interest you today?',
-        'Hi there! I\'m here to keep you updated with the latest news. What would you like to know?',
-        'Welcome! I have access to real-time news feeds and I\'m ready to help you stay informed.'
-      ],
-      general: [
-        'I\'ve found some interesting news coverage on that topic:',
-        'Here\'s what the latest reports are saying about this:',
-        'Based on recent news articles, here\'s the current situation:'
-      ]
-    };
-
-    // News-specific categorization
-    let category = 'general';
-    if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
-      category = 'greeting';
-    } else if (userMessage.toLowerCase().includes('breaking') || userMessage.toLowerCase().includes('latest')) {
-      category = 'breaking';
-    } else if (userMessage.toLowerCase().includes('headlines') || userMessage.toLowerCase().includes('top news')) {
-      category = 'headlines';
-    } else if (userMessage.toLowerCase().includes('technology') || userMessage.toLowerCase().includes('politics') ||
-      userMessage.toLowerCase().includes('sports') || userMessage.toLowerCase().includes('business')) {
-      category = 'topic';
-    }
-
-    const responses = responseTypes[category as keyof typeof responseTypes];
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-
-    const elaborations = [
-      'I\'ve cross-referenced multiple news sources to bring you the most accurate and up-to-date information.',
-      'These stories have been verified across several trusted news outlets for accuracy.',
-      'The news landscape is constantly evolving, and I\'m monitoring developments in real-time.',
-      'I\'ve analyzed recent articles and reports to provide you with comprehensive coverage of this topic.'
-    ];
-
-    const randomElaboration = elaborations[Math.floor(Math.random() * elaborations.length)];
-
-    return `${randomResponse}\n\n${randomElaboration}\n\n📰 **Sample News Update**: This demonstrates how NewsBot would deliver real-time news updates by retrieving relevant articles from trusted sources and presenting them in an easy-to-understand format with proper context and analysis.`;
   };
 
   return (
