@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, MessageSquare, Edit2, Trash2, Menu, X } from 'lucide-react';
+import type { ChatSession } from '../types';
 import '../styles/ChatHistorySidebar.scss';
-
-export interface ChatSession {
-    id: string;
-    title: string;
-    lastMessage: string;
-    timestamp: Date;
-    messageCount: number;
-}
 
 interface ChatHistorySidebarProps {
     chatSessions: ChatSession[];

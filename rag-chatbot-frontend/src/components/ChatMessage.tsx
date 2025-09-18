@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Bot } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import '../styles/ChatMessage.scss';
-import type { Message } from '../types/Message';
+import type { Message } from '../types';
 
 interface ChatMessageProps {
     message: Message;

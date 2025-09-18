@@ -2,7 +2,7 @@ import React from 'react';
 import ChatMessage from './ChatMessage';
 import TypingIndicator from './TypingIndicator';
 import '../styles/ChatScreen.scss';
-import type { Message } from '../types/Message';
+import type { Message } from '../types';
 
 interface ChatScreenProps {
     messages: Message[];

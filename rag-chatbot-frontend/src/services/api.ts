@@ -1,50 +1,14 @@
-export const API_BASE_URL = "http://localhost:5500"; // backend URL
+import type {
+    ChatMessage,
+    ChatResponse,
+    ChatRequest,
+    SessionResponse,
+    SessionHistoryResponse,
+    SessionListResponse,
+    SessionMetadata
+} from '../types';
 
-export interface ChatMessage {
-    role: "user" | "bot";
-    content: string;
-    timestamp: string;
-    sources?: Array<{
-        score: number;
-        title: string;
-        content: string;
-        url?: string;
-    }>;
-}
-
-export interface ChatResponse {
-    answer: string;
-    sources: Array<{
-        score: number;
-        title: string;
-        content: string;
-        url?: string;
-    }>;
-    history?: ChatMessage[];
-}
-
-export interface SessionResponse {
-    sessionId: string;
-}
-
-export interface SessionHistoryResponse {
-    messages: ChatMessage[];
-}
-
-export interface ChatRequest {
-    query: string;
-    sessionId?: string;
-}
-
-export interface SessionListResponse {
-    sessions: Array<{
-        id: string;
-        title: string;
-        lastMessage: string;
-        timestamp: string;
-        messageCount: number;
-    }>;
-}
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5500"; // backend URL
 
 // Session Management APIs
 export async function startSession(): Promise<string> {
@@ -127,13 +91,7 @@ export async function resetSession(sessionId: string): Promise<void> {
     }
 }
 
-export async function getAllSessions(): Promise<Array<{
-    id: string;
-    title: string;
-    lastMessage: string;
-    timestamp: string;
-    messageCount: number;
-}>> {
+export async function getAllSessions(): Promise<SessionMetadata[]> {
     try {
         const response = await fetch(`${API_BASE_URL}/session/list`, {
             method: "GET",
