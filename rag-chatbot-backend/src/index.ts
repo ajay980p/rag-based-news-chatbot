@@ -31,7 +31,7 @@ app.use("/chat", chatRoutes);
 // Error handling middleware (should be last)
 app.use(errorHandler);
 
-const PORT = config.port || 5000;
+const PORT = config.port;
 
 async function startServer() {
     try {

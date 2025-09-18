@@ -37,7 +37,8 @@ export const askChat = async (req: Request, res: Response) => {
             chatLogger.info(`Processing query for session ${sessionId}: ${query.substring(0, 50)}...`);
 
             // Run RAG pipeline to get bot response
-            const { answer, sources } = await runRAGPipeline(query);
+            const ragResponse = await runRAGPipeline(query);
+            const { answer, sources, context, metadata } = ragResponse;
 
             // Create new message pair
             const newMessagePair: MessagePair = {
@@ -66,7 +67,9 @@ export const askChat = async (req: Request, res: Response) => {
 
             chatLogger.info(`Response generated for session ${sessionId}`, {
                 messageCount: updatedMessagePairs.length,
-                sourcesCount: sources?.length || 0
+                sourcesCount: sources?.length || 0,
+                contextCount: context?.totalRetrieved || 0,
+                totalTime: metadata?.totalTime || 0
             });
 
             // Convert to legacy format for frontend compatibility
@@ -85,12 +88,25 @@ export const askChat = async (req: Request, res: Response) => {
                 });
             });
 
-            res.json({ answer, sources, history: legacyHistory });
+            res.json({
+                answer,
+                sources,
+                history: legacyHistory,
+                context,
+                metadata
+            });
         } else {
             // Handle query without session (backward compatibility)
             chatLogger.info(`Processing standalone query: ${query.substring(0, 50)}...`);
-            const { answer, sources } = await runRAGPipeline(query);
-            res.json({ answer, sources });
+            const ragResponse = await runRAGPipeline(query);
+            const { answer, sources, context, metadata } = ragResponse;
+
+            res.json({
+                answer,
+                sources,
+                context,
+                metadata
+            });
         }
 
     } catch (err) {
