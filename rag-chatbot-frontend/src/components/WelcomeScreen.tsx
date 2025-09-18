@@ -1,5 +1,5 @@
 import React from 'react';
-import { Newspaper, Zap, Globe, ArrowRight, TrendingUp } from 'lucide-react';
+import { Newspaper, Globe, ArrowRight, TrendingUp } from 'lucide-react';
 import '../styles/WelcomeScreen.scss';
 
 interface WelcomeScreenProps {
@@ -27,11 +27,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onSendMessage }) => {
             title: "Trending Analysis",
             description: "Get insights on trending topics and emerging news stories"
         },
-        {
-            icon: <Zap className="feature-icon" />,
-            title: "Instant Updates",
-            description: "Receive the latest news updates and summaries instantly"
-        }
     ];
 
     return (
