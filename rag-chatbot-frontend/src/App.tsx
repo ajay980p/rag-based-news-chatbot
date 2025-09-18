@@ -48,13 +48,13 @@ function App() {
   const loadAllSessions = async () => {
     try {
       const sessions = await getAllSessions();
-      // Convert the API response to our ChatSession format
+      // Convert the API response to our ChatSession format with safety checks
       const convertedSessions: ChatSession[] = sessions.map(session => ({
-        id: session.id,
-        title: session.title,
-        lastMessage: session.lastMessage,
-        timestamp: new Date(session.timestamp),
-        messageCount: session.messageCount
+        id: session.id || '',
+        title: session.title || 'Untitled Chat',
+        lastMessage: session.lastMessage || '',
+        timestamp: session.timestamp ? new Date(session.timestamp) : new Date(),
+        messageCount: session.messageCount || 0
       }));
       setChatSessions(convertedSessions);
       console.log(`📋 Loaded ${convertedSessions.length} sessions from Redis`);
@@ -67,12 +67,12 @@ function App() {
   const loadSessionMessages = async (sessionId: string) => {
     try {
       const chatMessages = await getSessionHistory(sessionId);
-      // Convert Redis ChatMessage format to our Message format
-      const convertedMessages: Message[] = chatMessages.map((msg, index) => ({
+      // Convert Redis ChatMessage format to our Message format with safety checks
+      const convertedMessages: Message[] = (chatMessages || []).map((msg, index) => ({
         id: `${sessionId}_${index}`,
-        text: msg.content,
-        isUser: msg.role === 'user',
-        timestamp: new Date(msg.timestamp),
+        text: msg?.content || '',
+        isUser: msg?.role === 'user',
+        timestamp: msg?.timestamp ? new Date(msg.timestamp) : new Date(),
       }));
       setMessages(convertedMessages);
     } catch (error) {
@@ -212,12 +212,12 @@ function App() {
 
   console.log(`🎬 Render - Current Chat ID: ${currentChatId}`);
   console.log(`🎬 Render - Current Messages: ${messages.length} messages`);
-  console.log(`🎬 Render - Sessions: ${chatSessions.length} sessions loaded`);
+  console.log(`🎬 Render - Sessions: ${chatSessions?.length || 0} sessions loaded`);
 
   return (
     <div className="app">
       <ChatHistorySidebar
-        chatSessions={chatSessions}
+        chatSessions={chatSessions || []}
         currentChatId={currentChatId}
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}

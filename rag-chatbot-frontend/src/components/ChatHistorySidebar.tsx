@@ -37,7 +37,11 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
         setEditTitle(currentTitle);
     };
 
-    const formatTime = (date: Date) => {
+    const formatTime = (date: Date | undefined) => {
+        if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+            return 'Unknown';
+        }
+
         const now = new Date();
         const diffMs = now.getTime() - date.getTime();
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -60,7 +64,8 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
         }
     };
 
-    const truncateText = (text: string, maxLength: number = 30) => {
+    const truncateText = (text: string | undefined, maxLength: number = 30) => {
+        if (!text) return '';
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     };
 
@@ -88,7 +93,7 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                     <div className="chat-sidebar__section">
                         <h3 className="chat-sidebar__section-title">Recent Chats</h3>
                         <div className="chat-sidebar__list">
-                            {chatSessions.length === 0 ? (
+                            {!chatSessions || chatSessions.length === 0 ? (
                                 <div className="chat-sidebar__empty">
                                     <MessageSquare size={24} className="chat-sidebar__empty-icon" />
                                     <p>No chat history yet</p>
@@ -97,7 +102,7 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                                     </p>
                                 </div>
                             ) : (
-                                chatSessions.map((session) => (
+                                chatSessions.filter(session => session && session.id).map((session) => (
                                     <div
                                         key={session.id}
                                         className={`chat-sidebar__item ${currentChatId === session.id ? 'chat-sidebar__item--active' : ''
@@ -121,17 +126,17 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                                                 ) : (
                                                     <>
                                                         <div className="chat-sidebar__item-title">
-                                                            {truncateText(session.title)}
+                                                            {truncateText(session?.title)}
                                                         </div>
                                                         <div className="chat-sidebar__item-preview">
-                                                            {truncateText(session.lastMessage, 40)}
+                                                            {truncateText(session?.lastMessage, 40)}
                                                         </div>
                                                     </>
                                                 )}
                                             </div>
                                             <div className="chat-sidebar__item-meta">
                                                 <span className="chat-sidebar__item-time">
-                                                    {formatTime(session.timestamp)}
+                                                    {formatTime(session?.timestamp)}
                                                 </span>
                                                 <div className="chat-sidebar__item-actions">
                                                     <button

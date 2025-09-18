@@ -85,43 +85,32 @@ export async function getSessionMetadata(sessionId: string) {
 
 /**
  * Get all sessions stored in Redis
- * Each session is stored as: session:<id> -> JSON array of messages
+ * Uses session metadata for efficient listing
  */
 export async function getAllSessions() {
-    console.log(`🔍 DEBUG: Starting getAllSessions()`);
+    const sessionIds = await client.sMembers("sessions:list");
+    const sessions = [];
 
-    // 1. Fetch all keys matching "session:*"
-    const keys = await client.keys("session:*");
-    console.log(`🔍 DEBUG: Found ${keys.length} session keys`, keys);
+    console.log(`🔍 DEBUG: Found ${sessionIds.length} session IDs in sessions:list`, sessionIds);
 
-    const sessions: any[] = [];
-
-    for (const key of keys) {
-        console.log(`🔍 DEBUG: Processing ${key}`);
-
-        const data = await client.get(key);
-        if (data) {
-            const messages = JSON.parse(data);
-
-            // Pick metadata: last message timestamp or first message if needed
-            const lastMessage = messages[messages.length - 1] || null;
-
+    for (const sessionId of sessionIds) {
+        console.log(`🔍 DEBUG: Loading metadata for session ${sessionId}`);
+        const metadata = await getSessionMetadata(sessionId);
+        if (metadata) {
             sessions.push({
-                id: key.replace("session:", ""), // strip prefix
-                lastMessage,
-                timestamp: lastMessage?.user_timestamp || lastMessage?.bot_timestamp || null,
+                id: sessionId,
+                ...metadata
             });
-
-            console.log(`✅ DEBUG: Added session ${key}`);
+            console.log(`✅ DEBUG: Added session ${sessionId} with metadata:`, metadata);
         } else {
-            console.log(`⚠️ DEBUG: No data found for ${key}`);
+            // Clean up orphaned session ID
+            console.log(`⚠️ DEBUG: No metadata found for session ${sessionId}, removing from list`);
+            await client.sRem("sessions:list", sessionId);
         }
     }
 
-    // 2. Sort sessions by timestamp (newest first)
-    sessions.sort(
-        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-    );
+    // Sort by timestamp (newest first)
+    sessions.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     console.log(`📋 Retrieved ${sessions.length} sessions from Redis`);
     return sessions;
