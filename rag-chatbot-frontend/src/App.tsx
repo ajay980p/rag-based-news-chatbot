@@ -5,27 +5,21 @@ import ChatInput from './components/ChatInput';
 import WelcomeScreen from './components/WelcomeScreen';
 import ChatHistorySidebar from './components/ChatHistorySidebar';
 import type { ChatSession } from './components/ChatHistorySidebar';
-import { askChat } from './services/api';
+import { askChat, startSession, getSessionHistory, resetSession } from './services/api';
 import './styles/App.scss';
 import type { Message } from './types/Message';
 
-interface ChatSessionData {
-  id: string;
-  messages: Message[];
-  isTyping: boolean;
-}
-
 function App() {
-  const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
-  const [chatSessionsData, setChatSessionsData] = useState<ChatSessionData[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'dark';
   });
 
-  // Apply theme to document and save preference
+  // Apply theme to document and save preference (only theme in localStorage)
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
@@ -36,94 +30,51 @@ function App() {
     }
   }, [isDarkMode]);
 
-  // Load chat sessions from localStorage on mount
-  useEffect(() => {
-    const savedSessions = localStorage.getItem('chatSessions');
-    const savedSessionsData = localStorage.getItem('chatSessionsData');
-    const savedCurrentChatId = localStorage.getItem('currentChatId');
-
-    if (savedSessions && savedSessionsData) {
-      try {
-        const sessions = JSON.parse(savedSessions).map((session: ChatSession) => ({
-          ...session,
-          timestamp: new Date(session.timestamp),
-        }));
-        const sessionsData = JSON.parse(savedSessionsData).map((data: ChatSessionData) => ({
-          ...data,
-          messages: data.messages.map((msg: Message) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp),
-          })),
-        }));
-
-        setChatSessions(sessions);
-        setChatSessionsData(sessionsData);
-
-        if (savedCurrentChatId && sessions.find((s: ChatSession) => s.id === savedCurrentChatId)) {
-          setCurrentChatId(savedCurrentChatId);
-        }
-      } catch (error) {
-        console.error('Failed to load chat sessions:', error);
-      }
-    }
-  }, []);
-
-  // Save chat sessions to localStorage
-  useEffect(() => {
-    if (chatSessions.length > 0) {
-      localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
-      localStorage.setItem('chatSessionsData', JSON.stringify(chatSessionsData));
-    }
-    if (currentChatId) {
-      localStorage.setItem('currentChatId', currentChatId);
-    }
-  }, [chatSessions, chatSessionsData, currentChatId]);
-
-  const getCurrentSessionData = () => {
-    if (!currentChatId) return null;
-    return chatSessionsData.find(data => data.id === currentChatId) || null;
-  };
-
   const generateChatTitle = (firstMessage: string): string => {
     const words = firstMessage.split(' ').slice(0, 6);
     return words.join(' ') + (firstMessage.split(' ').length > 6 ? '...' : '');
   };
 
-  const handleNewChat = () => {
-    const newChatId = `chat_${Date.now()}`;
-    setCurrentChatId(newChatId);
-
-    const newSessionData: ChatSessionData = {
-      id: newChatId,
-      messages: [],
-      isTyping: false,
-    };
-
-    setChatSessionsData(prev => [...prev, newSessionData]);
-  };
-
-  const handleSelectChat = (chatId: string) => {
-    setCurrentChatId(chatId);
-  };
-
-  const handleDeleteChat = (chatId: string) => {
-    setChatSessions(prev => prev.filter(session => session.id !== chatId));
-    setChatSessionsData(prev => prev.filter(data => data.id !== chatId));
-
-    if (currentChatId === chatId) {
-      const remainingSessions = chatSessions.filter(session => session.id !== chatId);
-      setCurrentChatId(remainingSessions.length > 0 ? remainingSessions[0].id : null);
+  const handleNewChat = async () => {
+    try {
+      setIsTyping(true);
+      const newSessionId = await startSession();
+      console.log(`🆕 Created new Redis session with ID: ${newSessionId}`);
+      setCurrentChatId(newSessionId);
+      setMessages([]);
+      setIsTyping(false);
+    } catch (error) {
+      console.error('Failed to create new session:', error);
+      setIsTyping(false);
     }
   };
 
-  const handleRenameChat = (chatId: string, newTitle: string) => {
-    setChatSessions(prev =>
-      prev.map(session =>
-        session.id === chatId
-          ? { ...session, title: newTitle }
-          : session
-      )
-    );
+  const handleSelectChat = async (chatId: string) => {
+    setCurrentChatId(chatId);
+    // Load messages for the selected chat
+    try {
+      const chatMessages = await getSessionHistory(chatId);
+      const convertedMessages: Message[] = chatMessages.map((msg, index) => ({
+        id: `${chatId}_${index}`,
+        text: msg.content,
+        isUser: msg.role === 'user',
+        timestamp: new Date(msg.timestamp),
+      }));
+      setMessages(convertedMessages);
+    } catch (error) {
+      console.error('Failed to load session messages:', error);
+      setMessages([]);
+    }
+  };
+
+  // For now, we'll use dummy data for chat sessions list
+  // In a full implementation, you'd need a Redis endpoint to list all sessions
+  const handleDeleteChat = (chatId: string) => {
+    // TODO: Implement Redis session deletion endpoint
+    if (currentChatId === chatId) {
+      setCurrentChatId(null);
+      setMessages([]);
+    }
   };
 
   const handleToggleTheme = () => {
@@ -131,83 +82,66 @@ function App() {
   };
 
   const handleSendMessage = async (text: string) => {
-    if (!currentChatId) {
-      handleNewChat();
-      // The new chat will be created, but we need to wait for the state update
-      setTimeout(() => handleSendMessage(text), 100);
-      return;
+    let sessionId = currentChatId;
+
+    // Create new session if none exists
+    if (!sessionId) {
+      try {
+        setIsTyping(true);
+        sessionId = await startSession();
+        console.log(`🆕 Created new Redis session with ID: ${sessionId}`);
+        setCurrentChatId(sessionId);
+        setMessages([]); // Start with empty messages for new session
+        setIsTyping(false);
+      } catch (error) {
+        console.error('Failed to create new session:', error);
+        setIsTyping(false);
+        return;
+      }
     }
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: `${sessionId}_${Date.now()}`,
       text,
       isUser: true,
       timestamp: new Date(),
     };
 
-    // Update current session data
-    setChatSessionsData(prev => prev.map(data =>
-      data.id === currentChatId
-        ? { ...data, messages: [...data.messages, userMessage], isTyping: true }
-        : data
-    ));
+    // Optimistically update UI
+    setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
 
-    // Create or update chat session metadata
-    const isFirstMessage = getCurrentSessionData()?.messages.length === 0;
-
-    if (isFirstMessage) {
-      const newSession: ChatSession = {
-        id: currentChatId,
-        title: generateChatTitle(text),
-        lastMessage: text,
-        timestamp: new Date(),
-        messageCount: 1,
-      };
-      setChatSessions(prev => [newSession, ...prev]);
-    }
+    console.log(`💬 Sending message to Redis session ${sessionId}: ${text}`);
 
     try {
-      const response = await askChat(text);
+      // Send message to backend with session ID
+      const response = await askChat(text, sessionId);
+      console.log(`🤖 Bot response received:`, response);
+
       const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: `${sessionId}_${Date.now() + 1}`,
         text: formatBotResponse(response.answer, response.sources),
         isUser: false,
         timestamp: new Date(),
       };
 
-      setChatSessionsData(prev => prev.map(data =>
-        data.id === currentChatId
-          ? { ...data, messages: [...data.messages, botMessage], isTyping: false }
-          : data
-      ));
+      setMessages(prev => [...prev, botMessage]);
+      setIsTyping(false);
 
-      // Update session metadata
-      setChatSessions(prev => prev.map(session =>
-        session.id === currentChatId
-          ? {
-            ...session,
-            lastMessage: response.answer.substring(0, 100),
-            timestamp: new Date(),
-            messageCount: session.messageCount + 1
-          }
-          : session
-      ));
+      console.log(`✅ Messages updated successfully in Redis session`);
 
     } catch (error) {
       console.error('❌ Failed to get response from backend:', error);
 
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: `${sessionId}_${Date.now() + 1}`,
         text: `❌ **Error**: ${error instanceof Error ? error.message : 'Unable to connect to the news service. Please check if the backend server is running.'}\n\nPlease try again or contact support if the issue persists.`,
         isUser: false,
         timestamp: new Date(),
       };
 
-      setChatSessionsData(prev => prev.map(data =>
-        data.id === currentChatId
-          ? { ...data, messages: [...data.messages, errorMessage], isTyping: false }
-          : data
-      ));
+      setMessages(prev => [...prev, errorMessage]);
+      setIsTyping(false);
     }
   };
 
@@ -227,29 +161,39 @@ function App() {
     return formattedResponse;
   };
 
-  const handleResetChat = () => {
+  const handleResetChat = async () => {
     if (currentChatId) {
-      setChatSessionsData(prev => prev.map(data =>
-        data.id === currentChatId
-          ? { ...data, messages: [], isTyping: false }
-          : data
-      ));
+      try {
+        await resetSession(currentChatId);
+        setMessages([]);
+        console.log(`🔄 Reset Redis session ${currentChatId}`);
+      } catch (error) {
+        console.error('Failed to reset session:', error);
+      }
     }
   };
 
-  const currentSessionData = getCurrentSessionData();
-  const currentMessages = currentSessionData?.messages || [];
-  const isTyping = currentSessionData?.isTyping || false;
+  // For now, use dummy data for sidebar (until we implement session listing)
+  const dummyChatSessions: ChatSession[] = currentChatId ? [{
+    id: currentChatId,
+    title: messages.length > 0 ? generateChatTitle(messages[0].text) : 'New Chat',
+    lastMessage: messages.length > 0 ? messages[messages.length - 1].text.substring(0, 100) : '',
+    timestamp: new Date(),
+    messageCount: messages.length,
+  }] : [];
+
+  console.log(`🎬 Render - Current Chat ID: ${currentChatId}`);
+  console.log(`🎬 Render - Current Messages: ${messages.length} messages`);
+  console.log(`🎬 Render - Messages:`, messages);
 
   return (
     <div className="app">
       <ChatHistorySidebar
-        chatSessions={chatSessions}
+        chatSessions={dummyChatSessions}
         currentChatId={currentChatId}
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
         onDeleteChat={handleDeleteChat}
-        onRenameChat={handleRenameChat}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
@@ -261,10 +205,10 @@ function App() {
           onToggleTheme={handleToggleTheme}
         />
 
-        {currentMessages.length === 0 ? (
+        {messages.length === 0 ? (
           <WelcomeScreen onSendMessage={handleSendMessage} />
         ) : (
-          <ChatScreen messages={currentMessages} isTyping={isTyping} />
+          <ChatScreen messages={messages} isTyping={isTyping} />
         )}
 
         <ChatInput onSendMessage={handleSendMessage} disabled={isTyping} />

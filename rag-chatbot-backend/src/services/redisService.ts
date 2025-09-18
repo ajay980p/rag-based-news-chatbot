@@ -19,19 +19,30 @@ export async function initRedis() {
     }
 }
 
-export async function setSession(sessionId: string, data: any) {
-    await client.set(sessionId, JSON.stringify(data));
-    console.log(`💾 Session [${sessionId}] saved to Redis`);
+export async function setSession(sessionId: string, data: any, ttlSeconds?: number) {
+    const key = `session:${sessionId}`;
+
+    if (ttlSeconds) {
+        // Set with TTL
+        await client.set(key, JSON.stringify(data), { EX: ttlSeconds });
+        console.log(`💾 Session [${sessionId}] saved to Redis with TTL: ${ttlSeconds}s`);
+    } else {
+        // Set without TTL
+        await client.set(key, JSON.stringify(data));
+        console.log(`💾 Session [${sessionId}] saved to Redis`);
+    }
 }
 
 export async function getSession(sessionId: string) {
-    const data = await client.get(sessionId);
+    const key = `session:${sessionId}`;
+    const data = await client.get(key);
     console.log(`📥 Session [${sessionId}] fetched from Redis`);
     return data ? JSON.parse(data) : null;
 }
 
 export async function clearSession(sessionId: string) {
-    await client.del(sessionId);
+    const key = `session:${sessionId}`;
+    await client.del(key);
     console.log(`🗑️ Session [${sessionId}] cleared from Redis`);
 }
 

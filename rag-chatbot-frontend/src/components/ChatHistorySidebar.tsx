@@ -16,7 +16,6 @@ interface ChatHistorySidebarProps {
     onSelectChat: (chatId: string) => void;
     onNewChat: () => void;
     onDeleteChat: (chatId: string) => void;
-    onRenameChat: (chatId: string, newTitle: string) => void;
     isCollapsed?: boolean;
     onToggleCollapse?: () => void;
 }
@@ -27,7 +26,6 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
     onSelectChat,
     onNewChat,
     onDeleteChat,
-    onRenameChat,
     isCollapsed = false,
     onToggleCollapse,
 }) => {
@@ -37,19 +35,6 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
     const handleRename = (chatId: string, currentTitle: string) => {
         setEditingChatId(chatId);
         setEditTitle(currentTitle);
-    };
-
-    const handleSaveRename = () => {
-        if (editingChatId && editTitle.trim()) {
-            onRenameChat(editingChatId, editTitle.trim());
-        }
-        setEditingChatId(null);
-        setEditTitle('');
-    };
-
-    const handleCancelRename = () => {
-        setEditingChatId(null);
-        setEditTitle('');
     };
 
     const formatTime = (date: Date) => {
@@ -129,11 +114,6 @@ const ChatHistorySidebar: React.FC<ChatHistorySidebarProps> = ({
                                                         type="text"
                                                         value={editTitle}
                                                         onChange={(e) => setEditTitle(e.target.value)}
-                                                        onBlur={handleSaveRename}
-                                                        onKeyDown={(e) => {
-                                                            if (e.key === 'Enter') handleSaveRename();
-                                                            if (e.key === 'Escape') handleCancelRename();
-                                                        }}
                                                         className="chat-sidebar__item-input"
                                                         autoFocus
                                                         onClick={(e) => e.stopPropagation()}
