@@ -68,6 +68,36 @@ export const useChat = (
         } catch (error) {
             console.error('❌ Failed to get response from backend:', error);
 
+            // Check if it's a session expiry error and try to create a new session
+            if (error instanceof Error && error.message.includes('Session expired or not found')) {
+                console.log('🔄 Session expired, creating new session and retrying...');
+                try {
+                    // Create new session and retry the request
+                    const newSessionId = await createNewSession();
+                    if (newSessionId) {
+                        // Retry the request with the new session
+                        const retryResponse = await askChat(text, newSessionId);
+
+                        const botMessage: Message = {
+                            id: `${newSessionId}_${Date.now() + 1}`,
+                            text: formatBotResponse(retryResponse.answer, retryResponse.sources),
+                            isUser: false,
+                            timestamp: new Date(),
+                            isStreaming: true,
+                            sources: retryResponse.sources,
+                        };
+
+                        addMessage(botMessage);
+                        setIsTyping(false);
+                        await refreshSessions();
+                        console.log(`✅ Successfully recovered from session expiry`);
+                        return; // Exit successfully
+                    }
+                } catch (retryError) {
+                    console.error('❌ Failed to recover from session expiry:', retryError);
+                }
+            }
+
             const errorMessage: Message = {
                 id: `${sessionId}_${Date.now() + 1}`,
                 text: `❌ **Error**: ${error instanceof Error ? error.message : 'Unable to connect to the news service. Please check if the backend server is running.'}\n\nPlease try again or contact support if the issue persists.`,

@@ -137,8 +137,16 @@ Please write a response as if you're explaining the news to a friend. Focus on w
         const totalTime = Date.now() - startTime;
         chatLogger.error('RAG pipeline failed:', error);
 
+        // Enhanced error logging
+        if (error instanceof Error) {
+            chatLogger.error(`Error details: ${error.message}`);
+            chatLogger.error(`Error stack: ${error.stack}`);
+        }
+
+        console.error('RAG PIPELINE DETAILED ERROR:', error);
+
         return {
-            answer: `Sorry, I ran into a technical issue while processing your request. Could you try asking your question again? If the problem persists, you might want to rephrase your question or ask about a different topic.`,
+            answer: `Sorry, I ran into a technical issue while processing your request. Error: ${error instanceof Error ? error.message : 'Unknown error'}. Could you try asking your question again?`,
             sources: [],
             metadata: {
                 totalTime,
