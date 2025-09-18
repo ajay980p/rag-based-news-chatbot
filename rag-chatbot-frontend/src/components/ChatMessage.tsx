@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Bot } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import '../styles/ChatMessage.scss';
 import type { Message } from '../types/Message';
 
@@ -10,11 +11,13 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(!message.isUser);
+    const [streamingComplete, setStreamingComplete] = useState(message.isUser);
 
     useEffect(() => {
         if (message.isUser) {
             setDisplayedText(message.text);
             setIsTyping(false);
+            setStreamingComplete(true);
             return;
         }
 
@@ -22,6 +25,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         let index = 0;
         setDisplayedText('');
         setIsTyping(true);
+        setStreamingComplete(false);
 
         const timer = setInterval(() => {
             if (index < message.text.length) {
@@ -29,6 +33,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                 index++;
             } else {
                 setIsTyping(false);
+                setStreamingComplete(true);
                 clearInterval(timer);
             }
         }, 20); // Adjust speed here (lower = faster)
@@ -55,10 +60,40 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             </div>
             <div className="chat-message__content">
                 <div className="chat-message__bubble">
-                    <p className="chat-message__text">
-                        {displayedText}
-                        {isTyping && <span className="typing-cursor">|</span>}
-                    </p>
+                    {message.isUser ? (
+                        <p className="chat-message__text">
+                            {displayedText}
+                            {isTyping && <span className="typing-cursor">|</span>}
+                        </p>
+                    ) : (
+                        <div className="chat-message__text">
+                            {streamingComplete ? (
+                                <ReactMarkdown
+                                    components={{
+                                        // Make everything completely inline with no spacing
+                                        p: ({ children }) => <span>{children}</span>,
+                                        strong: ({ children }) => <strong className="markdown-bold">{children}</strong>,
+                                        a: ({ href, children }) => (
+                                            <a href={href} target="_blank" rel="noopener noreferrer" className="markdown-link">
+                                                {children}
+                                            </a>
+                                        ),
+                                        ul: ({ children }) => <span>{children}</span>,
+                                        li: ({ children }) => <span style={{ display: 'inline-block', width: '100%', margin: '0', padding: '0' }}>{children}</span>,
+                                        ol: ({ children }) => <span>{children}</span>,
+                                        br: () => <span> </span>,
+                                    }}
+                                >
+                                    {message.text}
+                                </ReactMarkdown>
+                            ) : (
+                                <span>
+                                    {displayedText}
+                                    {isTyping && <span className="typing-cursor">|</span>}
+                                </span>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <div className="chat-message__timestamp">
                     {formatTime(message.timestamp)}
