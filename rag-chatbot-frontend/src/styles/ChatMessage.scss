@@ -105,76 +105,129 @@
 
     &__text {
         margin: 0;
-        line-height: 1.1;
-        font-size: 0.9rem;
-        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        color: var(--text-primary);
 
-        // Remove all default styling
-        * {
-            margin: 0 !important;
-            padding: 0 !important;
+        // Proper paragraph spacing for better readability
+        .message-paragraph {
+            margin: 0 0 0.8rem 0;
+            line-height: 1.6;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &:first-child {
+                margin-top: 0;
+            }
         }
 
-        // Markdown styling
+        // Enhanced markdown styling with Roboto
         .markdown-bold {
             font-weight: 700;
+            font-family: 'Roboto', sans-serif;
             color: var(--primary-color);
+        }
+
+        .markdown-italic {
+            font-style: italic;
+            font-family: 'Roboto', sans-serif;
         }
 
         .markdown-link {
             color: var(--primary-color);
             text-decoration: underline;
-            border-bottom: 1px solid transparent;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
             transition: all 0.2s ease;
 
             &:hover {
-                border-bottom-color: var(--primary-color);
                 opacity: 0.8;
                 text-decoration: none;
             }
         }
 
-        // Remove all list styling and spacing
+        // Proper list styling
         .markdown-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: inline;
-
-            li {
-                margin: 0;
-                padding: 0;
-                line-height: 1.2;
-                display: block;
-                list-style: none;
-            }
-        }
-
-        .markdown-list-item {
-            margin: 0;
-            padding: 0;
-            line-height: 1.2;
-            display: block;
-            list-style: none;
-        }
-
-        // Completely inline paragraphs
-        p {
-            margin: 0;
-            padding: 0;
-            display: inline;
-
-            &:first-child {
-                margin-top: 0;
-            }
+            margin: 0.5rem 0 0.8rem 0;
+            padding-left: 1.2rem;
 
             &:last-child {
                 margin-bottom: 0;
             }
         }
 
+        .markdown-list-item {
+            margin: 0.3rem 0;
+            line-height: 1.5;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .markdown-ordered-list {
+            margin: 0.5rem 0 0.8rem 0;
+            padding-left: 1.2rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        // Headings with proper spacing
+        .message-heading {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            margin: 0.8rem 0 0.5rem 0;
+            color: var(--primary-color);
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        h1.message-heading {
+            font-size: 1.2rem;
+        }
+
+        h2.message-heading {
+            font-size: 1.1rem;
+        }
+
+        h3.message-heading {
+            font-size: 1rem;
+        }
+
+        // Inline code styling
+        .inline-code {
+            background: var(--bg-tertiary);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+
+        // Line breaks
+        .line-break {
+            margin: 0.4rem 0;
+        }
+
+        // Streaming text styling
+        .streaming-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
         @media (max-width: 480px) {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
     }
 

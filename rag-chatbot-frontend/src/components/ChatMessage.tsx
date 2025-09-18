@@ -21,22 +21,26 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             return;
         }
 
-        // Streaming effect for bot messages
-        let index = 0;
+        // Word-by-word streaming effect for bot messages (more readable)
+        const words = message.text.split(' ');
+        let wordIndex = 0;
         setDisplayedText('');
         setIsTyping(true);
         setStreamingComplete(false);
 
         const timer = setInterval(() => {
-            if (index < message.text.length) {
-                setDisplayedText(prev => prev + message.text[index]);
-                index++;
+            if (wordIndex < words.length) {
+                setDisplayedText(prev => {
+                    const newText = prev + (wordIndex === 0 ? '' : ' ') + words[wordIndex];
+                    return newText;
+                });
+                wordIndex++;
             } else {
                 setIsTyping(false);
                 setStreamingComplete(true);
                 clearInterval(timer);
             }
-        }, 20); // Adjust speed here (lower = faster)
+        }, 100); // Adjust speed here (100ms per word)
 
         return () => clearInterval(timer);
     }, [message.text, message.isUser]);
@@ -70,27 +74,31 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                             {streamingComplete ? (
                                 <ReactMarkdown
                                     components={{
-                                        // Make everything completely inline with no spacing
-                                        p: ({ children }) => <span>{children}</span>,
+                                        p: ({ children }) => <p className="message-paragraph">{children}</p>,
                                         strong: ({ children }) => <strong className="markdown-bold">{children}</strong>,
+                                        em: ({ children }) => <em className="markdown-italic">{children}</em>,
                                         a: ({ href, children }) => (
                                             <a href={href} target="_blank" rel="noopener noreferrer" className="markdown-link">
                                                 {children}
                                             </a>
                                         ),
-                                        ul: ({ children }) => <span>{children}</span>,
-                                        li: ({ children }) => <span style={{ display: 'inline-block', width: '100%', margin: '0', padding: '0' }}>{children}</span>,
-                                        ol: ({ children }) => <span>{children}</span>,
-                                        br: () => <span> </span>,
+                                        ul: ({ children }) => <ul className="markdown-list">{children}</ul>,
+                                        li: ({ children }) => <li className="markdown-list-item">{children}</li>,
+                                        ol: ({ children }) => <ol className="markdown-ordered-list">{children}</ol>,
+                                        br: () => <br className="line-break" />,
+                                        h1: ({ children }) => <h1 className="message-heading">{children}</h1>,
+                                        h2: ({ children }) => <h2 className="message-heading">{children}</h2>,
+                                        h3: ({ children }) => <h3 className="message-heading">{children}</h3>,
+                                        code: ({ children }) => <code className="inline-code">{children}</code>,
                                     }}
                                 >
                                     {message.text}
                                 </ReactMarkdown>
                             ) : (
-                                <span>
+                                <div className="streaming-text">
                                     {displayedText}
                                     {isTyping && <span className="typing-cursor">|</span>}
-                                </span>
+                                </div>
                             )}
                         </div>
                     )}
