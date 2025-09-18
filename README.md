@@ -14,14 +14,14 @@ This chatbot leverages RAG architecture to retrieve relevant news passages from 
 
 ### Tech Stack
 
-- **🧠 Embeddings**: Google Gemini / Jina AI
+- **🧠 Embeddings**: Google Gemini
 - **🔍 Vector Database**: Pinecone 
 - **🤖 LLM API**: Google Gemini
 - **⚡ Backend**: Node.js with Express.js & TypeScript
 - **💾 Cache & Sessions**: Redis
 - **🎨 Frontend**: React + Vite + TypeScript + SCSS
 - **📊 Monitoring**: Winston Logger
-- **📖 API Documentation**: Swagger/OpenAPI
+- **📖 API Documentation**: Swagger
 
 ### How It Works
 #### 🔄 Detailed Workflow
